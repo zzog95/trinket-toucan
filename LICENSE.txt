@@ -1,0 +1,24 @@
+Music Credits
+
+This project uses the following music assets:
+
+1. Life of Riley by Kevin MacLeod
+   Licensed under Creative Commons Attribution 4.0 International (CC BY 4.0)
+   https://creativecommons.org/licenses/by/4.0/
+   Source: http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400054
+   Artist: http://incompetech.com/
+
+2. Scheming Weasel (faster version) by Kevin MacLeod
+   Licensed under Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+   https://creativecommons.org/licenses/by/3.0/
+   Source: http://incompetech.com
+   Free Download / Stream: https://bit.ly/scheming-weasel
+   Music promoted by Audio Library: https://youtu.be/2CapGaKMsWU
+
+3. Run Amok by Kevin MacLeod
+   Licensed under Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+   https://creativecommons.org/licenses/by/3.0/
+   Source: http://incompetech.com
+   Download: http://incompetech.com/music/royalty-free/mp3-royaltyfree/Run%20Amok.mp3
+
+These tracks are used for this exhibition project with appropriate attribution.

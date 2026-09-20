@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Level 1</title>
+    <link rel="stylesheet" href="../../style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #EEF3F1;
+            --panel: #FFFFFF;
+            --ink: #16281F;
+            --ink-soft: #4B5D54;
+            --teal: #2F6F62;
+            --teal-dark: #1E4B41;
+            --amber: #D98E2B;
+            --amber-soft: #F6E3C4;
+            --line: #C7D6CD;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .app {
+            /* width: 100%; */
+            max-width: 980px;
+            max-height: 100%;
+        }
+
+        #levelTitle {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--teal-dark);
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 16px;
+            margin: 0 0 8px;
+            width: 100%;
+            max-width: 620px;
+            text-align: center;
+        }
+
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(5, 100px);
+            grid-template-rows: repeat(2, 140px);
+            gap: 12px;
+            margin-top: 24px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        /* Card container */
+        .card {
+            width: 100px;
+            height: 140px;
+            perspective: 900px;
+            cursor: pointer;
+        }
+
+        /* Inner flip element */
+        .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.5s ease;
+        }
+
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Card faces */
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            padding: 8px;
+            user-select: none;
+        }
+
+        .card-back {
+            background: var(--teal);
+            color: #fff;
+            border: 1px solid var(--teal-dark);
+        }
+
+        .card-back::after {
+            /* content: "?"; */
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 28px;
+            opacity: 0.5;
+        }
+
+        .card-front {
+            background: var(--panel);
+            color: var(--teal-dark);
+            border: 1px solid var(--teal);
+            transform: rotateY(180deg);
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        .card.matched .card-front {
+            background: var(--amber-soft);
+            border-color: var(--amber);
+            color: var(--ink);
+        }
+
+        .card.matched {
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        /* Modal */
+        #info-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(22, 40, 31, 0);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: background 0.4s ease, opacity 0.4s ease;
+        }
+
+        #info-modal.show {
+            display: flex;
+            background: rgba(22, 40, 31, 0.45);
+            opacity: 1;
+        }
+
+        #info-content {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            padding: 24px 28px;
+            border-radius: 4px;
+            max-width: 400px;
+            text-align: center;
+            transform: scale(0.92);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        #info-modal.show #info-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #info-title {
+            color: var(--teal-dark);
+            font-size: 19px;
+            margin: 0 0 10px;
+        }
+
+        #info-text {
+            color: var(--ink-soft);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 0 6px;
+        }
+
+        button {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid var(--teal);
+            background: var(--teal);
+            color: #fff;
+            padding: 10px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: var(--teal-dark);
+            border-color: var(--teal-dark);
+        }
+
+        #close-modal {
+            margin-top: 16px;
+        }
+
+        .back-btn {
+            margin-top: 24px;
+            background: transparent;
+            color: var(--teal);
+        }
+
+        .back-btn:hover {
+            background: var(--teal);
+            color: #fff;
+        }
+
+        .title-block h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--teal-dark);
+        }
+
+        .title-block p {
+            margin: 6px 0 0;
+            font-size: 14px;
+            color: var(--ink-soft);
+            max-width: 46ch;
+        }
+    </style>
+</head>
+
+<body id="levelScreen" class="screen">
+
+    <!-- <h1 id="levelTitle"></h1> -->
+    <audio id="lvl1" preload="auto" loop autoplay>
+        <source src="../../assets/sound/lvl1.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="app">
+
+        <header>
+            <div class="title-block">
+                <h1>Level 1 - Memory Game</h1>
+                <p></p>
+            </div>
+        </header>
+        <div id="game-board"></div>
+
+        <!-- Modal -->
+        <div id="info-modal">
+            <div id="info-content">
+                <h2 id="info-title"></h2>
+                <p id="info-text"></p>
+                <button id="close-modal">Close</button>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="showHubFromOutside()">
+            Back
+        </button>
+        <div id="splashScreen">Level Completed!</div>
+    </div>
+
+    <script>
+        let finalMatch = false;
+        // Ubah data dekat sini
+        const pairs = [
+            {
+                id: "pharmacist",
+                cards: ["Pharmacist", "Prescription"],
+                title: "Pharmacist & Prescription",
+                message: "Pharmacists check prescriptions and help patients use medicines safely."
+            },
+            {
+                id: "tablet",
+                cards: ["Tablet", "Pillbox"],
+                title: "Tablet & Pillbox",
+                message: "A pillbox can help organize medicines and make it easier to remember doses."
+            },
+            {
+                id: "syrup",
+                cards: ["Syrup", "Measuring Cup"],
+                title: "Syrup & Measuring Cup",
+                message: "Liquid medicines should be measured carefully using the correct measuring device."
+            },
+            {
+                id: "inhaler",
+                cards: ["Inhaler", "Lungs"],
+                title: "Inhaler & Lungs",
+                message: "Inhalers deliver medicine directly to the airways and lungs."
+            },
+            {
+                id: "expiry",
+                cards: ["Expiry Date", "Calendar"],
+                title: "Expiry Date & Calendar",
+                message: "Always check the expiry date before using a medicine."
+            }
+        ];
+
+
+        let cards = [];
+        pairs.forEach(pair => {
+            pair.cards.forEach(label => {
+                cards.push({
+                    pairId: pair.id,
+                    label: label,
+                    title: pair.title,
+                    message: pair.message
+                });
+            });
+        });
+
+        // Shuffle
+        cards = cards.sort(() => Math.random() - 0.5);
+
+        const board = document.getElementById("game-board");
+        let firstCard = null;
+        let secondCard = null;
+        let lockBoard = false;
+
+        // Build cards
+        cards.forEach((data, index) => {
+            const card = document.createElement("div");
+            card.classList.add("card");
+            card.dataset.index = index;
+            card.dataset.pairId = data.pairId;
+
+            const inner = document.createElement("div");
+            inner.classList.add("card-inner");
+
+            const front = document.createElement("div");
+            front.classList.add("card-front");
+            front.textContent = data.label;
+
+            const back = document.createElement("div");
+            back.classList.add("card-back");
+            back.textContent = "";
+
+            inner.appendChild(front);
+            inner.appendChild(back);
+            card.appendChild(inner);
+            board.appendChild(card);
+
+            card.addEventListener("click", () => flipCard(card));
+        });
+
+        function flipCard(card) {
+            if (lockBoard) return;
+            if (card.classList.contains("flipped") || card.classList.contains("matched")) return;
+
+            card.classList.add("flipped");
+
+            if (!firstCard) {
+                firstCard = card;
+                return;
+            }
+
+            secondCard = card;
+            checkMatch();
+        }
+
+        function checkMatch() {
+            const firstData = cards[firstCard.dataset.index];
+            const secondData = cards[secondCard.dataset.index];
+
+            if (firstData.pairId === secondData.pairId) {
+                firstCard.classList.add("matched");
+                secondCard.classList.add("matched");
+                showInfo(firstData.title, firstData.message);
+                resetTurn();
+
+                // Check if this was the final pair
+                const matchedCards = document.querySelectorAll(".card.matched").length;
+                if (matchedCards === cards.length) {
+                    finalMatch = true; // mark that the last modal is showing
+                }
+            } else {
+                lockBoard = true;
+                setTimeout(() => {
+                    firstCard.classList.remove("flipped");
+                    secondCard.classList.remove("flipped");
+                    resetTurn();
+                }, 900);
+            }
+        }
+
+        function resetTurn() {
+            firstCard = null;
+            secondCard = null;
+            lockBoard = false;
+        }
+
+        // Modal
+        const modal = document.getElementById("info-modal");
+        const infoTitle = document.getElementById("info-title");
+        const infoText = document.getElementById("info-text");
+        const closeBtn = document.getElementById("close-modal");
+
+        function showInfo(title, message) {
+            infoTitle.textContent = title;
+            infoText.textContent = message;
+
+            modal.style.display = "flex";
+            requestAnimationFrame(() => {
+                modal.classList.add("show");
+            });
+        }
+
+        closeBtn.addEventListener("click", () => {
+            modal.classList.remove("show");
+            setTimeout(() => {
+                modal.style.display = "none";
+
+                // If this was the final modal, complete the level
+                if (finalMatch && typeof completeLevel === "function") {
+                    completeLevel();
+                    finalMatch = false; // reset
+                }
+
+            }, 400);
+        });
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.classList.remove("show");
+                setTimeout(() => {
+                    modal.style.display = "none"
+
+                    // If this was the final modal, complete the level
+                    if (finalMatch && typeof completeLevel === "function") {
+                        completeLevel();
+                        finalMatch = false; // reset
+                    }
+
+                }, 400);
+            }
+        });
+    </script>
+    <script src="../../script.js"></script>
+
+</body>
+
+</html>

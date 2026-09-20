@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+  <title>Pharmacy Word Search</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #EEF3F1;
+      --panel: #FFFFFF;
+      --ink: #16281F;
+      --ink-soft: #4B5D54;
+      --teal: #2F6F62;
+      --teal-dark: #1E4B41;
+      --amber: #D98E2B;
+      --amber-soft: #F6E3C4;
+      --line: #C7D6CD;
+      --found: #2F6F62;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'IBM Plex Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 980px;
+      max-height: 100%;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .title-block h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: var(--teal-dark);
+    }
+
+    .title-block p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      color: var(--ink-soft);
+      max-width: 46ch;
+    }
+
+    .meta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--ink-soft);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    .meta strong {
+      color: var(--teal-dark);
+      font-size: 16px;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 260px;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .meta {
+        text-align: left;
+      }
+    }
+
+    .board-wrap {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .grid-stack {
+      position: relative;
+      width: min(100%, 62vh);
+    }
+
+    #highlight-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    #grid {
+      display: grid;
+      gap: 2px;
+      width: 100%;
+      aspect-ratio: 1/1;
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      font-size: clamp(14px, 3.4vw, 26px);
+      color: var(--ink);
+      background: transparent;
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .cell.selecting {
+      background: var(--amber-soft);
+      color: var(--teal-dark);
+    }
+
+    .found-line {
+      opacity: 0;
+      animation: line-in 0.25s ease forwards;
+    }
+
+    @keyframes line-in {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 16px 18px;
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-soft);
+    }
+
+    #wordlist {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+    }
+
+    #wordlist li {
+      color: var(--ink);
+      transition: color 0.2s ease;
+    }
+
+    #wordlist li.done {
+      color: var(--ink-soft);
+      text-decoration: line-through;
+      text-decoration-color: var(--teal);
+      text-decoration-thickness: 2px;
+    }
+
+    button {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      border: 1px solid var(--teal);
+      background: var(--teal);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:hover {
+      background: var(--teal-dark);
+      border-color: var(--teal-dark);
+    }
+
+    button.ghost {
+      background: transparent;
+      color: var(--teal);
+    }
+
+    button.ghost:hover {
+      background: var(--teal);
+      color: #fff;
+    }
+
+    #splashScreen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      background: rgba(22, 40, 31, 0.55);
+      color: #fff;
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-align: center;
+      padding: 20px;
+      cursor: pointer;
+      z-index: 30;
+    }
+
+    #splashScreen.show {
+      display: flex;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+  </style>
+</head>
+
+<body id="levelScreen" class="screen">
+  <audio id="lvl2" preload="auto" loop autoplay>
+    <source src="../../assets/sound/lvl2.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <div class="app">
+    <header>
+      <div class="title-block">
+        <h1>Level 2 - Word Search</h1>
+        <p>Find every term hidden in the grid. Click or tap a letter, then drag to the last letter of the word.</p>
+      </div>
+      <div class="meta">
+        <div><strong id="timer">00:00</strong></div>
+        <div id="progress">0 / 0 found</div>
+      </div>
+    </header>
+
+    <main>
+      <div class="board-wrap">
+        <div class="grid-stack">
+          <div id="grid" role="grid" aria-label="Word search grid"></div>
+          <svg id="highlight-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+        </div>
+      </div>
+
+      <div class="sidebar">
+        <div class="panel">
+          <h2>Find these terms</h2>
+          <ul id="wordlist"></ul>
+        </div>
+        <div class="panel">
+          <button id="restart-btn">Restart</button>
+          <div><br></div>
+          <button onclick="showHubFromOutside()">
+            Back
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <div id="splashScreen">Level Completed!</div>
+  </div>
+
+  <script>
+    (function () {
+      const WORDS = [
+        "TABLET", "CAPSULE", "DOSAGE", "SYRINGE",
+        "VACCINE", "ALLERGY", "GENERIC", "INSULIN"
+      ];
+
+      const GRID_SIZE = 10;
+      const DIRECTIONS = [
+        { dr: 0, dc: 1 }, { dr: 0, dc: -1 },
+        { dr: 1, dc: 0 }, { dr: -1, dc: 0 },
+        { dr: 1, dc: 1 }, { dr: 1, dc: -1 },
+        { dr: -1, dc: 1 }, { dr: -1, dc: -1 }
+      ];
+
+      let grid, placedWords, foundWords, selecting, selectionPath, startCell, timerInterval, secondsElapsed;
+
+      const gridEl = document.getElementById('grid');
+      const wordlistEl = document.getElementById('wordlist');
+      const progressEl = document.getElementById('progress');
+      const timerEl = document.getElementById('timer');
+      const splashScreen = document.getElementById('splashScreen');
+
+      function randInt(n) { return Math.floor(Math.random() * n); }
+      function randLetter() { return String.fromCharCode(65 + randInt(26)); }
+
+      function buildGrid() {
+        grid = Array.from({ length: GRID_SIZE }, () => Array(GRID_SIZE).fill(null));
+        placedWords = [];
+
+        const wordsToPlace = [...WORDS].sort((a, b) => b.length - a.length);
+
+        for (const word of wordsToPlace) {
+          let placed = false;
+          let attempts = 0;
+          while (!placed && attempts < 400) {
+            attempts++;
+            const dir = DIRECTIONS[randInt(DIRECTIONS.length)];
+            const maxRow = dir.dr === 1 ? GRID_SIZE - word.length : (dir.dr === -1 ? word.length - 1 : GRID_SIZE - 1);
+            const minRow = dir.dr === -1 ? word.length - 1 : 0;
+            const maxCol = dir.dc === 1 ? GRID_SIZE - word.length : (dir.dc === -1 ? word.length - 1 : GRID_SIZE - 1);
+            const minCol = dir.dc === -1 ? word.length - 1 : 0;
+
+            if (maxRow < minRow || maxCol < minCol) continue;
+
+            const row = minRow + randInt(maxRow - minRow + 1);
+            const col = minCol + randInt(maxCol - minCol + 1);
+
+            let ok = true;
+            for (let i = 0; i < word.length; i++) {
+              const r = row + dir.dr * i;
+              const c = col + dir.dc * i;
+              const existing = grid[r][c];
+              if (existing !== null && existing !== word[i]) { ok = false; break; }
+            }
+            if (!ok) continue;
+
+            for (let i = 0; i < word.length; i++) {
+              const r = row + dir.dr * i;
+              const c = col + dir.dc * i;
+              grid[r][c] = word[i];
+            }
+            placedWords.push({ word, row, col, dir });
+            placed = true;
+          }
+          if (!placed) {
+            console.warn('Could not place word:', word);
+          }
+        }
+
+        for (let r = 0; r < GRID_SIZE; r++) {
+          for (let c = 0; c < GRID_SIZE; c++) {
+            if (grid[r][c] === null) grid[r][c] = randLetter();
+          }
+        }
+      }
+
+      function renderGrid() {
+        gridEl.style.gridTemplateColumns = `repeat(${GRID_SIZE}, 1fr)`;
+        gridEl.innerHTML = '';
+        for (let r = 0; r < GRID_SIZE; r++) {
+          for (let c = 0; c < GRID_SIZE; c++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.textContent = grid[r][c];
+            cell.dataset.row = r;
+            cell.dataset.col = c;
+            gridEl.appendChild(cell);
+          }
+        }
+      }
+
+      function renderWordlist() {
+        wordlistEl.innerHTML = '';
+        for (const word of WORDS) {
+          const li = document.createElement('li');
+          li.textContent = word;
+          li.dataset.word = word;
+          wordlistEl.appendChild(li);
+        }
+        updateProgress();
+      }
+
+      function updateProgress() {
+        progressEl.textContent = `${foundWords.size} / ${WORDS.length} found`;
+      }
+
+      function cellAt(r, c) {
+        return gridEl.querySelector(`.cell[data-row="${r}"][data-col="${c}"]`);
+      }
+
+      function clearSelectionStyles() {
+        gridEl.querySelectorAll('.cell.selecting').forEach(el => el.classList.remove('selecting'));
+      }
+
+      function getLineCells(start, end) {
+        const dr = Math.sign(end.row - start.row);
+        const dc = Math.sign(end.col - start.col);
+        const rowDiff = Math.abs(end.row - start.row);
+        const colDiff = Math.abs(end.col - start.col);
+        if (!(dr === 0 || dc === 0 || rowDiff === colDiff)) return null;
+        const steps = Math.max(rowDiff, colDiff);
+        const cells = [];
+        for (let i = 0; i <= steps; i++) {
+          cells.push({ row: start.row + dr * i, col: start.col + dc * i });
+        }
+        return cells;
+      }
+
+      function startSelection(row, col) {
+        selecting = true;
+        startCell = { row, col };
+        selectionPath = [{ row, col }];
+        clearSelectionStyles();
+        cellAt(row, col).classList.add('selecting');
+      }
+
+      function updateSelection(row, col) {
+        if (!selecting) return;
+        const line = getLineCells(startCell, { row, col });
+        clearSelectionStyles();
+        if (!line) return;
+        selectionPath = line;
+        for (const cell of line) {
+          cellAt(cell.row, cell.col).classList.add('selecting');
+        }
+      }
+
+      function endSelection() {
+        if (!selecting) return;
+        selecting = false;
+        clearSelectionStyles();
+
+        if (selectionPath.length > 1) {
+          const letters = selectionPath.map(p => grid[p.row][p.col]).join('');
+          const reversed = letters.split('').reverse().join('');
+
+          const match = WORDS.find(w => (w === letters || w === reversed) && !foundWords.has(w));
+          if (match) {
+            const colorIndex = foundWords.size % PALETTE.length;
+            foundWords.add(match);
+            drawFoundLine(selectionPath[0], selectionPath[selectionPath.length - 1], colorIndex);
+            const li = wordlistEl.querySelector(`li[data-word="${match}"]`);
+            if (li) li.classList.add('done');
+            updateProgress();
+            checkWin();
+          }
+        }
+        selectionPath = [];
+      }
+
+      const PALETTE = [
+        'rgba(217,142,43,0.55)',
+        'rgba(47,111,98,0.5)',
+        'rgba(198,93,93,0.5)',
+        'rgba(90,120,199,0.5)',
+        'rgba(150,110,190,0.5)',
+        'rgba(96,150,90,0.5)',
+        'rgba(199,150,60,0.55)',
+        'rgba(80,150,160,0.5)'
+      ];
+
+      function cellCenter(row, col) {
+        return {
+          x: ((col + 0.5) / GRID_SIZE) * 100,
+          y: ((row + 0.5) / GRID_SIZE) * 100
+        };
+      }
+
+      function drawFoundLine(start, end, colorIndex) {
+        const svg = document.getElementById('highlight-svg');
+        const a = cellCenter(start.row, start.col);
+        const b = cellCenter(end.row, end.col);
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', a.x);
+        line.setAttribute('y1', a.y);
+        line.setAttribute('x2', b.x);
+        line.setAttribute('y2', b.y);
+        line.setAttribute('stroke', PALETTE[colorIndex]);
+        line.setAttribute('stroke-width', (100 / GRID_SIZE) * 0.8);
+        line.setAttribute('stroke-linecap', 'round');
+        line.setAttribute('class', 'found-line');
+        svg.appendChild(line);
+      }
+
+      function checkWin() {
+        if (foundWords.size === WORDS.length) {
+          stopTimer();
+          splashScreen.classList.add('show');
+          if (typeof completeLevel === "function") {
+            completeLevel();
+          }
+        }
+      }
+
+      function attachEvents() {
+        gridEl.addEventListener('mousedown', e => {
+          const cell = e.target.closest('.cell');
+          if (!cell) return;
+          startSelection(+cell.dataset.row, +cell.dataset.col);
+        });
+        gridEl.addEventListener('mouseover', e => {
+          if (!selecting) return;
+          const cell = e.target.closest('.cell');
+          if (!cell) return;
+          updateSelection(+cell.dataset.row, +cell.dataset.col);
+        });
+        document.addEventListener('mouseup', endSelection);
+
+        gridEl.addEventListener('touchstart', e => {
+          const touch = e.touches[0];
+          const el = document.elementFromPoint(touch.clientX, touch.clientY);
+          const cell = el && el.closest('.cell');
+          if (!cell) return;
+          e.preventDefault();
+          startSelection(+cell.dataset.row, +cell.dataset.col);
+        }, { passive: false });
+
+        gridEl.addEventListener('touchmove', e => {
+          if (!selecting) return;
+          e.preventDefault();
+          const touch = e.touches[0];
+          const el = document.elementFromPoint(touch.clientX, touch.clientY);
+          const cell = el && el.closest('.cell');
+          if (!cell) return;
+          updateSelection(+cell.dataset.row, +cell.dataset.col);
+        }, { passive: false });
+
+        gridEl.addEventListener('touchend', endSelection);
+      }
+
+      function startTimer() {
+        secondsElapsed = 0;
+        timerEl.textContent = '00:00';
+        stopTimer();
+        timerInterval = setInterval(() => {
+          secondsElapsed++;
+          const m = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+          const s = String(secondsElapsed % 60).padStart(2, '0');
+          timerEl.textContent = `${m}:${s}`;
+        }, 1000);
+      }
+      function stopTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+      }
+
+      function newGame() {
+        foundWords = new Set();
+        selecting = false;
+        selectionPath = [];
+        splashScreen.classList.remove('show');
+        document.getElementById('highlight-svg').innerHTML = '';
+        buildGrid();
+        renderGrid();
+        renderWordlist();
+        startTimer();
+      }
+
+      document.getElementById('restart-btn').addEventListener('click', newGame);
+      splashScreen.addEventListener('click', () => splashScreen.classList.remove('show'));
+
+      attachEvents();
+      newGame();
+    })();
+  </script>
+  <script src="../../script.js"></script>
+
+</body>
+
+</html>
