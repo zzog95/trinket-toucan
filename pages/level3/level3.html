@@ -4,8 +4,249 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Level 3</title>
+    <title>Level 3 - Sorting Challenge</title>
     <link rel="stylesheet" href="../../style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #EEF3F1;
+            --panel: #FFFFFF;
+            --ink: #16281F;
+            --ink-soft: #4B5D54;
+            --teal: #2F6F62;
+            --teal-dark: #1E4B41;
+            --amber: #D98E2B;
+            --amber-soft: #F6E3C4;
+            --line: #C7D6CD;
+            --error: #A94A3A;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            min-height: 100%;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            display: flex;
+            justify-content: center;
+            padding: 32px 20px;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 980px;
+        }
+
+        header {
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 18px;
+            margin-bottom: 24px;
+        }
+
+        .title-block h1 {
+            margin: 0;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--teal-dark);
+        }
+
+        .title-block p {
+            margin: 6px 0 0;
+            font-size: 14px;
+            color: var(--ink-soft);
+        }
+
+        .game-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 4px;
+            padding: 20px;
+        }
+
+        .panel h2 {
+            margin: 0 0 16px;
+            font-size: 15px;
+            color: var(--teal-dark);
+        }
+
+        .items {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .item {
+            min-height: 92px;
+            padding: 16px;
+            border: 1px solid var(--teal);
+            border-radius: 4px;
+            background: #F7FAF8;
+            color: var(--teal-dark);
+            cursor: grab;
+            user-select: none;
+            transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+        }
+
+        .item:hover,
+        .item.selected {
+            background: var(--amber-soft);
+            border-color: var(--amber);
+        }
+
+        .item.dragging {
+            opacity: 0.45;
+        }
+
+        .item strong {
+            display: block;
+            font-size: 15px;
+        }
+
+        .item span {
+            display: block;
+            margin-top: 5px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: var(--ink-soft);
+        }
+
+        .item.sorted {
+            display: none;
+        }
+
+        .bins {
+            display: grid;
+            gap: 12px;
+        }
+
+        .bin {
+            min-height: 82px;
+            padding: 14px;
+            border: 1px dashed var(--teal);
+            border-radius: 4px;
+            background: #F7FAF8;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .bin.over,
+        .bin:focus {
+            outline: none;
+            background: var(--amber-soft);
+            border-color: var(--amber);
+            border-style: solid;
+        }
+
+        .bin h3 {
+            margin: 0;
+            font-size: 14px;
+            color: var(--teal-dark);
+        }
+
+        .bin p {
+            margin: 4px 0 0;
+            font-size: 12px;
+            color: var(--ink-soft);
+        }
+
+        .sorted-item {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid var(--line);
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--teal-dark);
+        }
+
+        #feedback {
+            min-height: 22px;
+            margin: 18px 0 0;
+            font-size: 13px;
+            color: var(--ink-soft);
+        }
+
+        #feedback.error {
+            color: var(--error);
+        }
+
+        #feedback.success {
+            color: var(--teal-dark);
+            font-weight: 600;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        button {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            border: 1px solid var(--teal);
+            background: var(--teal);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover:not(:disabled) {
+            background: var(--teal-dark);
+            border-color: var(--teal-dark);
+        }
+
+        button:disabled {
+            background: var(--line);
+            border-color: var(--line);
+            color: var(--ink-soft);
+            cursor: not-allowed;
+        }
+
+        button.ghost {
+            background: transparent;
+            color: var(--teal);
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 24px 14px;
+            }
+
+            .game-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .items {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .items {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body id="levelScreen" class="screen">
@@ -14,17 +255,155 @@
         Your browser does not support the audio element.
     </audio>
 
-    <h1 id="levelTitle"></h1>
-    <p>This is where your actual game will be.</p>
+    <div class="app">
+        <header>
+            <div class="title-block">
+                <h1>Level 3 - Sorting Challenge</h1>
+                <p>Drag each pharmacy item into the category where it belongs.</p>
+            </div>
+        </header>
 
-    <button onclick="completeLevel()">
-        Complete Level
-    </button>
+        <main class="game-layout">
+            <section class="panel">
+                <h2>Items to sort</h2>
+                <div class="items" id="items">
+                    <div class="item" draggable="true" data-category="prescription">
+                        <strong>Amoxicillin</strong>
+                        <span>Medicine</span>
+                    </div>
+                    <div class="item" draggable="true" data-category="over-the-counter">
+                        <strong>Paracetamol</strong>
+                        <span>Medicine</span>
+                    </div>
+                    <div class="item" draggable="true" data-category="vitamins">
+                        <strong>Vitamin C</strong>
+                        <span>Supplement</span>
+                    </div>
+                    <div class="item" draggable="true" data-category="supplies">
+                        <strong>Bandage</strong>
+                        <span>Medical supply</span>
+                    </div>
+                </div>
+                <p id="feedback" aria-live="polite">Choose an item and click a category, or drag it there.</p>
+            </section>
 
-    <button onclick="showHubFromOutside()">
-        Back
-    </button>
-    <div id="splashScreen">Level Completed!</div>
+            <section class="panel">
+                <h2>Pharmacy categories</h2>
+                <div class="bins">
+                    <div class="bin" tabindex="0" data-category="prescription">
+                        <h3>Prescription</h3>
+                        <p>Requires a prescription</p>
+                    </div>
+                    <div class="bin" tabindex="0" data-category="over-the-counter">
+                        <h3>Over the counter</h3>
+                        <p>Common non-prescription medicine</p>
+                    </div>
+                    <div class="bin" tabindex="0" data-category="vitamins">
+                        <h3>Vitamins</h3>
+                        <p>Supplements and vitamins</p>
+                    </div>
+                    <div class="bin" tabindex="0" data-category="supplies">
+                        <h3>Medical supplies</h3>
+                        <p>Tools and care supplies</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div class="actions">
+            <button id="completeButton" onclick="completeLevel()" disabled>Complete Level</button>
+            <button class="ghost" onclick="showHubFromOutside()">Back</button>
+        </div>
+        <div id="splashScreen">Level Completed!</div>
+    </div>
+
+    <script>
+        const items = document.querySelectorAll(".item");
+        const bins = document.querySelectorAll(".bin");
+        const feedback = document.getElementById("feedback");
+        const completeButton = document.getElementById("completeButton");
+        let selectedItem = null;
+        let sortedCount = 0;
+
+        function setFeedback(message, type = "") {
+            feedback.textContent = message;
+            feedback.className = type;
+        }
+
+        function sortItem(item, bin) {
+            if (!item || item.classList.contains("sorted")) return;
+
+            if (item.dataset.category !== bin.dataset.category) {
+                item.classList.remove("selected");
+                selectedItem = null;
+                setFeedback("That item belongs in a different category. Try again.", "error");
+                return;
+            }
+
+            const placedItem = document.createElement("div");
+            placedItem.className = "sorted-item";
+            placedItem.textContent = item.querySelector("strong").textContent;
+            bin.appendChild(placedItem);
+            item.classList.add("sorted");
+            item.classList.remove("selected");
+            selectedItem = null;
+            sortedCount += 1;
+
+            if (sortedCount === items.length) {
+                setFeedback("All items sorted correctly. Level complete!", "success");
+                completeButton.disabled = false;
+            } else {
+                setFeedback(`${sortedCount} of ${items.length} items sorted correctly.`, "success");
+            }
+        }
+
+        items.forEach(item => {
+            item.addEventListener("dragstart", event => {
+                event.dataTransfer.setData("text/plain", item.dataset.category);
+                item.classList.add("dragging");
+            });
+
+            item.addEventListener("dragend", () => {
+                item.classList.remove("dragging");
+            });
+
+            item.addEventListener("click", () => {
+                items.forEach(otherItem => otherItem.classList.remove("selected"));
+                selectedItem = item;
+                item.classList.add("selected");
+                setFeedback("Now click the category where this item belongs.");
+            });
+        });
+
+        bins.forEach(bin => {
+            bin.addEventListener("dragover", event => {
+                event.preventDefault();
+                bin.classList.add("over");
+            });
+
+            bin.addEventListener("dragleave", () => {
+                bin.classList.remove("over");
+            });
+
+            bin.addEventListener("drop", event => {
+                event.preventDefault();
+                bin.classList.remove("over");
+                const draggedItem = [...items].find(item => item.dataset.category === event.dataTransfer.getData("text/plain") && !item.classList.contains("sorted"));
+                sortItem(draggedItem, bin);
+            });
+
+            bin.addEventListener("click", () => {
+                sortItem(selectedItem, bin);
+            });
+
+            bin.addEventListener("keydown", event => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    sortItem(selectedItem, bin);
+                }
+            });
+        });
+    </script>
 
     <script src="../../script.js"></script>
 </body>
