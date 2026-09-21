@@ -14,6 +14,10 @@ let progress = JSON.parse(localStorage.getItem("progress")) || {
 
 let win = document.getElementById('splashScreen');
 
+document.addEventListener("contextmenu", event => {
+    event.preventDefault();
+});
+
 function hideAll() {
     document.querySelectorAll(".screen").forEach(s => {
         s.classList.add("hidden");

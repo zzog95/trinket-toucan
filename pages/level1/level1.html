@@ -48,7 +48,7 @@
         }
 
         .app {
-            /* width: 100%; */
+            width: 100%;
             max-width: 980px;
             max-height: 100%;
         }
@@ -68,20 +68,21 @@
 
         #game-board {
             display: grid;
-            grid-template-columns: repeat(5, 100px);
-            grid-template-rows: repeat(2, 140px);
-            gap: 12px;
-            margin-top: 24px;
+            grid-template-columns: repeat(5, 130px);
+            grid-template-rows: repeat(2, 178px);
+            gap: 14px;
+            width: max-content;
+            margin: 24px auto 0;
             background: var(--panel);
             border: 1px solid var(--line);
             border-radius: 4px;
-            padding: 20px;
+            padding: 24px;
         }
 
         /* Card container */
         .card {
-            width: 100px;
-            height: 140px;
+            width: 130px;
+            height: 178px;
             perspective: 900px;
             cursor: pointer;
         }
@@ -243,6 +244,18 @@
             color: var(--ink-soft);
             max-width: 46ch;
         }
+
+        header {
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 18px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -259,7 +272,7 @@
         <header>
             <div class="title-block">
                 <h1>Level 1 - Memory Game</h1>
-                <p></p>
+                <p>Match each medicine-related pair. Click two cards to reveal them.</p>
             </div>
         </header>
         <div id="game-board"></div>
