@@ -311,7 +311,6 @@
         </main>
 
         <div class="actions">
-            <button id="completeButton" onclick="completeLevel()" disabled>Complete Level</button>
             <button class="ghost" onclick="showHubFromOutside()">Back</button>
         </div>
         <div id="splashScreen">Level Completed!</div>
@@ -321,7 +320,6 @@
         const items = document.querySelectorAll(".item");
         const bins = document.querySelectorAll(".bin");
         const feedback = document.getElementById("feedback");
-        const completeButton = document.getElementById("completeButton");
         let selectedItem = null;
         let sortedCount = 0;
 
@@ -351,7 +349,7 @@
 
             if (sortedCount === items.length) {
                 setFeedback("All items sorted correctly. Level complete!", "success");
-                completeButton.disabled = false;
+                completeLevel();
             } else {
                 setFeedback(`${sortedCount} of ${items.length} items sorted correctly.`, "success");
             }
