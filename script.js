@@ -3,6 +3,15 @@ function getCurrentLevelFromPath() {
     return match ? Number(match[1]) : 0;
 }
 
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        const serviceWorkerPath = window.location.pathname.includes("/pages/")
+            ? "../../sw.js"
+            : "sw.js";
+        navigator.serviceWorker.register(serviceWorkerPath).catch(() => {});
+    });
+}
+
 let currentLevel = Number(sessionStorage.getItem("currentLevel")) || getCurrentLevelFromPath();
 const SPLASH_DURATION_MS = 3000;
 

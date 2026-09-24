@@ -1,0 +1,17 @@
+{
+  "name": "Pharmacy Adventure",
+  "short_name": "Pharmacy Adventure",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EEF3F1",
+  "theme_color": "#2F6F62",
+  "description": "An offline pharmacy adventure game.",
+  "icons": [
+    {
+      "src": "assets/img/pills.png",
+      "sizes": "214x188",
+      "type": "image/png"
+    }
+  ]
+}
