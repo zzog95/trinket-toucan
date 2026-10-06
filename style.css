@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    background: #f4f4f4;
+    background: #F4F0F7;
 }
 
 .screen {
@@ -36,7 +36,7 @@ button {
 }
 
 .completed {
-    color: green;
+    color: #75509A;
     font-weight: bold;
 }
 
@@ -48,16 +48,16 @@ button {
     width: min(360px, calc(100vw - 40px));
     transform: translate(-50%, -50%);
     background: #fff;
-    color: #16281f;
+    color: #261D2E;
     font-family: 'IBM Plex Sans', sans-serif;
     font-size: 26px;
     font-weight: 700;
     letter-spacing: -0.01em;
     text-align: center;
     padding: 52px 28px;
-    border: 1px solid #c7d6cd;
+    border: 1px solid #D7CBE2;
     border-radius: 8px;
-    box-shadow: 0 0 0 100vmax rgba(22, 40, 31, 0.18), 0 14px 32px rgba(22, 40, 31, 0.16);
+    box-shadow: 0 0 0 100vmax rgba(38, 29, 46, 0.18), 0 14px 32px rgba(38, 29, 46, 0.16);
     cursor: pointer;
     z-index: 30;
 }

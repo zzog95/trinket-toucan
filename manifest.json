@@ -1,6 +1,6 @@
 {
-  "name": "Pharmacy Adventure",
-  "short_name": "Pharmacy Adventure",
+  "name": "Kenali Ubat Anda",
+  "short_name": "Kenali Ubat Anda",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

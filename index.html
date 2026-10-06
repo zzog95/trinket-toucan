@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pharmacy Adventure</title>
+    <title>Kenali Ubat Anda</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,15 +13,15 @@
         rel="stylesheet">
     <style>
         :root {
-            --bg: #EEF3F1;
+            --bg: #F4F0F7;
             --panel: #FFFFFF;
-            --ink: #16281F;
-            --ink-soft: #4B5D54;
-            --teal: #2F6F62;
-            --teal-dark: #1E4B41;
+            --ink: #261D2E;
+            --ink-soft: #62596B;
+            --teal: #75509A;
+            --teal-dark: #50366E;
             --amber: #D98E2B;
             --amber-soft: #F6E3C4;
-            --line: #C7D6CD;
+            --line: #D7CBE2;
         }
 
         * {
@@ -169,44 +169,44 @@
 <body>
 
     <div id="mainMenu" class="screen">
-        <h1>🩺 Pharmacy Adventure</h1>
+        <h1>Kenali Ubat Anda</h1>
         <audio id="backgroundMusic" preload="auto" loop>
             <source src="assets/sound/bckgrd.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
-        <button onclick="showHub()">Start Game</button>
+        <button onclick="showHub()">Mula</button>
     </div>
 
     <div id="hub" class="screen hidden">
-        <h1>Select a Challenge</h1>
+        <h1>Sila Pilih Cabaran</h1>
 
         <div class="level-container">
             <div class="level">
-                <h2>Memory Game</h2> <!-- Use 'A Brand New Start - TrackTribe' Audio  -->
+                <h2>Memori</h2> <!-- Use 'A Brand New Start - TrackTribe' Audio  -->
                 <p id="status1">Not Completed</p>
-                <button onclick="playLevel(1)">Play</button>
+                <button onclick="playLevel(1)">Mula</button>
             </div>
 
             <div class="level"> <!-- Use 'Scheming Weasel (faster version) – Kevin MacLeod' Audio  -->
-                <h2>Word Search</h2>
+                <h2>Cari Kata</h2>
                 <p id="status2">Not Completed</p>
-                <button onclick="playLevel(2)">Play</button>
+                <button onclick="playLevel(2)">Mula</button>
             </div>
 
             <div class="level">
                 <h2>Mini Game</h2> <!-- Use 'Computer Bounce - Geographer' Audio  -->
                 <p id="status3">Not Completed</p>
-                <button onclick="playLevel(3)">Play</button>
+                <button onclick="playLevel(3)">Mula</button>
             </div>
         </div>
 
         <hr>
 
         <button id="bossBtn" disabled onclick="playBoss()">
-            Boss Level Locked!
+            Peringkat Bonus Dikunci!
         </button>
 
-        <button class="ghost" style="margin-top: 20px;" onclick="resetProgress()">Reset Progress</button>
+        <button class="ghost" style="margin-top: 20px;" onclick="resetProgress()">Set Semula Cabaran</button>
 
     </div>
 

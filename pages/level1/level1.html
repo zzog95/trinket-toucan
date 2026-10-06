@@ -7,265 +7,11 @@
     <title>Level 1</title>
     <link rel="manifest" href="../../manifest.json">
     <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="level1.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            --bg: #EEF3F1;
-            --panel: #FFFFFF;
-            --ink: #16281F;
-            --ink-soft: #4B5D54;
-            --teal: #2F6F62;
-            --teal-dark: #1E4B41;
-            --amber: #D98E2B;
-            --amber-soft: #F6E3C4;
-            --line: #C7D6CD;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            height: 100%;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: 'IBM Plex Sans', sans-serif;
-            background: var(--bg);
-            color: var(--ink);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            padding: 20px;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
-        .app {
-            width: 100%;
-            max-width: 980px;
-            max-height: 100%;
-        }
-
-        #levelTitle {
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--teal-dark);
-            border-bottom: 1px solid var(--line);
-            padding-bottom: 16px;
-            margin: 0 0 8px;
-            width: 100%;
-            max-width: 620px;
-            text-align: center;
-        }
-
-        #game-board {
-            display: grid;
-            grid-template-columns: repeat(5, 130px);
-            grid-template-rows: repeat(2, 178px);
-            gap: 14px;
-            width: max-content;
-            margin: 24px auto 0;
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 4px;
-            padding: 24px;
-        }
-
-        /* Card container */
-        .card {
-            width: 130px;
-            height: 178px;
-            perspective: 900px;
-            cursor: pointer;
-        }
-
-        /* Inner flip element */
-        .card-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.5s ease;
-        }
-
-        .card.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        /* Card faces */
-        .card-front,
-        .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 70px;
-            font-weight: 600;
-            text-align: center;
-            padding: 8px;
-            user-select: none;
-        }
-
-        .card-back {
-            background: var(--teal);
-            color: #fff;
-            border: 1px solid var(--teal-dark);
-        }
-
-        .card-back::after {
-            /* content: "?"; */
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 28px;
-            opacity: 0.5;
-        }
-
-        .card-front {
-            background: var(--panel);
-            color: var(--teal-dark);
-            border: 1px solid var(--teal);
-            transform: rotateY(180deg);
-            font-family: 'IBM Plex Mono', monospace;
-        }
-
-        .card-front img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            pointer-events: none;
-        }
-
-        .card.matched .card-front {
-            background: var(--amber-soft);
-            border-color: var(--amber);
-            color: var(--ink);
-        }
-
-        .card.matched {
-            cursor: default;
-            opacity: 0.85;
-        }
-
-        /* Modal */
-        #info-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(22, 40, 31, 0);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: background 0.4s ease, opacity 0.4s ease;
-        }
-
-        #info-modal.show {
-            display: flex;
-            background: rgba(22, 40, 31, 0.45);
-            opacity: 1;
-        }
-
-        #info-content {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            padding: 24px 28px;
-            border-radius: 4px;
-            max-width: 400px;
-            text-align: center;
-            transform: scale(0.92);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        #info-modal.show #info-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        #info-title {
-            color: var(--teal-dark);
-            font-size: 19px;
-            margin: 0 0 10px;
-        }
-
-        #info-text {
-            color: var(--ink-soft);
-            font-size: 14px;
-            line-height: 1.5;
-            margin: 0 0 6px;
-        }
-
-        button {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-            border: 1px solid var(--teal);
-            background: var(--teal);
-            color: #fff;
-            padding: 10px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: var(--teal-dark);
-            border-color: var(--teal-dark);
-        }
-
-        #close-modal {
-            margin-top: 16px;
-        }
-
-        .back-btn {
-            margin-top: 24px;
-            background: transparent;
-            color: var(--teal);
-        }
-
-        .back-btn:hover {
-            background: var(--teal);
-            color: #fff;
-        }
-
-        .title-block h1 {
-            margin: 0;
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            color: var(--teal-dark);
-        }
-
-        .title-block p {
-            margin: 6px 0 0;
-            font-size: 14px;
-            color: var(--ink-soft);
-            max-width: 46ch;
-        }
-
-        header {
-            border-bottom: 1px solid var(--line);
-            padding-bottom: 18px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 16px;
-            flex-wrap: wrap;
-            text-align: left;
-        }
-    </style>
 </head>
 
 <body id="levelScreen" class="screen">
@@ -280,8 +26,8 @@
 
         <header>
             <div class="title-block">
-                <h1>Level 1 - Memory Game</h1>
-                <p>Match each medicine-related pair. Click two cards to reveal them.</p>
+                <h1>Tahap 1 - Memori</h1>
+                <p>Padankan setiap pasangan berkaitan dengan Panduan Penyimpanan Ubat yang Selamat. Klik dua kad untuk menerokannya.</p>
             </div>
         </header>
         <div id="game-board"></div>
@@ -290,15 +36,15 @@
         <div id="info-modal">
             <div id="info-content">
                 <h2 id="info-title"></h2>
-                <p id="info-text"></p>
-                <button id="close-modal">Close</button>
+                <div id="info-text"></div>
+                <button id="close-modal">Tutup</button>
             </div>
         </div>
 
         <button class="back-btn" onclick="showHubFromOutside()">
-            Back
+            Kembali
         </button>
-        <div id="splashScreen">Level Completed!</div>
+        <div id="splashScreen">Tahap Selesai!</div>
     </div>
 
     <script>
@@ -306,10 +52,19 @@
         // Ubah data dekat sini
         const pairs = [
             {
-                id: "pharmacist",
-                cards: ["🧑‍⚕️", "🧑‍⚕️"],
-                title: "Pharmacist & Prescription",
-                message: "Pharmacists check prescriptions and help patients use medicines safely."
+                id: "termometer",
+                cards: [
+                    {
+                        image: "../../assets/img/termometer.png",
+                        alt: "🌡️"
+                    },
+                    {
+                        image: "../../assets/img/termometer.png",
+                        alt: "🌡️"
+                    }
+                ],
+                title: "",
+                message: "<p>Suhu ubat mengikut suhu yang dinyatakan:</p><ul><li>2°C hingga 8°C (peti sejuk)</li><li>Suhu 30°C ke bawah (suhu bilik)</li></ul>"
             },
             {
                 id: "tablet",
@@ -323,26 +78,53 @@
                         alt: "💊"
                     }
                 ],
-                title: "Tablet & Pillbox",
-                message: "A pillbox can help organize medicines and make it easier to remember doses."
+                title: "",
+                message: "<p>Simpan ubat dalam bekas asal atau sampul ubat berserta label yang lengkap.</p>"
             },
             {
-                id: "syrup",
-                cards: ["🫗", "🫗"],
-                title: "Syrup & Measuring Cup",
-                message: "Liquid medicines should be measured carefully using the correct measuring device."
+                id: "cahaya",
+                cards: [
+                    {
+                        image: "../../assets/img/cahaya.png",
+                        alt: "☀️"
+                    },
+                    {
+                        image: "../../assets/img/cahaya.png",
+                        alt: "☀️"
+                    }
+                ],
+                title: "",
+                message: "<p>Jauhkan ubat daripada cahaya.</p><ul><li>Contoh: Meletakkan ubat-ubatan di tepi tingkap.</li></ul>"
             },
             {
-                id: "inhaler",
-                cards: ["🫁", "🫁"],
-                title: "Inhaler & Lungs",
-                message: "Inhalers deliver medicine directly to the airways and lungs."
+                id: "firstAid",
+                cards: [
+                    {
+                        image: "../../assets/img/first-aid.png",
+                        alt: "🩹"
+                    },
+                    {
+                        image: "../../assets/img/first-aid.png",
+                        alt: "🩹"
+                    }
+                ],
+                title: "",
+                message: "<ul><li>Asingkan ubat makan daripada ubat kegunaan luar.</li><li>Jangan simpan ubat dalam bekas yang luput, rosak, atau tidak berlabel.</li></ul>"
             },
             {
-                id: "expiry",
-                cards: ["📆", "📆"],
-                title: "Expiry Date & Calendar",
-                message: "Always check the expiry date before using a medicine."
+                id: "fridge",
+                cards: [
+                    {
+                        image: "../../assets/img/fridge.png",
+                        alt: "🧊"
+                    },
+                    {
+                        image: "../../assets/img/fridge.png",
+                        alt: "🧊"
+                    }
+                ],
+                title: "",
+                message: "<p>Jangan simpan ubat di dalam peti sejuk kecuali diarah berbuat demikian.</p>"
             }
         ];
 
@@ -454,7 +236,7 @@
 
         function showInfo(title, message) {
             infoTitle.textContent = title;
-            infoText.textContent = message;
+            infoText.innerHTML = message;
 
             modal.style.display = "flex";
             requestAnimationFrame(() => {

@@ -1,4 +1,4 @@
-const CACHE_NAME = "pharmacy-adventure-v1";
+const CACHE_NAME = "pharmacy-adventure-v2";
 
 const APP_ASSETS = [
     "./",
@@ -7,13 +7,18 @@ const APP_ASSETS = [
     "./script.js",
     "./manifest.json",
     "./pages/level1/level1.html",
+    "./pages/level1/level1.css",
     "./pages/level2/level2.html",
+    "./pages/level2/level2.css",
+    "./pages/level2/level2.js",
     "./pages/level3/level3.html",
     "./pages/levelBoss/levelBoss.html",
     "./assets/img/pills.png",
-    "./assets/i18n/en.js",
-    "./assets/i18n/ms.js",
-    "./assets/i18n/i18n.js",
+    "./assets/img/first-aid.png",
+    "./assets/img/cahaya.png",
+    "./assets/img/fridge.png",
+    "./assets/img/termometer.png",
+    "./assets/img/meditips.png",
     "./assets/sound/bckgrd.mp3",
     "./assets/sound/lvl1.mp3",
     "./assets/sound/lvl2.mp3",

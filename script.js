@@ -131,10 +131,10 @@ function updateUI() {
 
     if (progress.level1 && progress.level2 && progress.level3) {
         boss.disabled = false;
-        boss.innerHTML = "Play Boss Level";
+        boss.innerHTML = "Main Peringkat Bonus";
     } else {
         boss.disabled = true;
-        boss.innerHTML = "Boss Level Locked!";
+        boss.innerHTML = "Peringkat Bonus Dikunci!";
     }
 }
 
