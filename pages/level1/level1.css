@@ -15,12 +15,12 @@
 }
 
 html,
-body {
-    height: 100%;
-    overflow: hidden;
+body#levelScreen {
+    min-height: 100%;
+    overflow-x: hidden;
 }
 
-body {
+body#levelScreen {
     font-family: 'IBM Plex Sans', sans-serif;
     background: var(--bg);
     color: var(--ink);
@@ -28,16 +28,17 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    padding: 20px;
+    min-height: 100vh;
+    padding: 10px;
     margin: 0;
     box-sizing: border-box;
 }
 
 .app {
+    --card-width: clamp(50px, min(11.7vw, 18vh), 160px);
+    --card-height: calc(var(--card-width) * 1.37);
     width: 100%;
-    max-width: 980px;
-    max-height: 100%;
+    max-width: 1280px;
 }
 
 #levelTitle {
@@ -55,21 +56,21 @@ body {
 
 #game-board {
     display: grid;
-    grid-template-columns: repeat(5, 130px);
-    grid-template-rows: repeat(2, 178px);
-    gap: 14px;
+    grid-template-columns: repeat(5, var(--card-width));
+    grid-template-rows: repeat(2, var(--card-height));
+    gap: 12px;
     width: max-content;
-    margin: 24px auto 0;
+    margin: 16px auto 0;
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 4px;
-    padding: 24px;
+    padding: 16px;
 }
 
 /* Card container */
 .card {
-    width: 130px;
-    height: 178px;
+    width: var(--card-width);
+    height: var(--card-height);
     perspective: 900px;
     cursor: pointer;
 }
@@ -116,10 +117,12 @@ body {
 }
 
 .card-back::after {
-    /* content: "?"; */
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 28px;
-    opacity: 0.5;
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 4px dotted rgba(255, 255, 255, 0.95);
+    border-radius: 6px 6px 6px 6px;
+    pointer-events: none;
 }
 
 .card-front {
@@ -234,7 +237,7 @@ button:hover {
 }
 
 .back-btn {
-    margin-top: 24px;
+    margin-top: 12px;
     background: transparent;
     color: var(--teal);
 }
@@ -261,12 +264,27 @@ button:hover {
 
 header {
     border-bottom: 1px solid var(--line);
-    padding-bottom: 18px;
-    margin-bottom: 24px;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
     text-align: left;
+}
+
+@media (max-width: 600px) {
+    body#levelScreen {
+        padding: 12px;
+    }
+
+    .app {
+        --card-width: clamp(44px, min(13vw, 18vh), 160px);
+    }
+
+    #game-board {
+        gap: 6px;
+        padding: 10px;
+    }
 }

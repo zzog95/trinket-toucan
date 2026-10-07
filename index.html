@@ -48,7 +48,7 @@
 
         .screen {
             width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
             text-align: center;
         }
 
@@ -61,7 +61,7 @@
             font-weight: 700;
             letter-spacing: -0.01em;
             color: var(--teal-dark);
-            margin: 0 0 28px;
+            margin: 0 0 20px;
         }
 
         button {
@@ -107,16 +107,17 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 28px;
+            gap: 16px;
+            margin-bottom: 20px;
         }
 
         .level {
             background: var(--panel);
             border: 1px solid var(--line);
             border-radius: 4px;
-            padding: 22px 20px;
-            width: 220px;
+            padding: 18px 20px;
+            width: min(100%, 300px);
+            flex: 1 1 220px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -145,7 +146,7 @@
         hr {
             border: none;
             border-top: 1px solid var(--line);
-            margin: 28px auto;
+            margin: 20px auto;
             max-width: 500px;
         }
 
