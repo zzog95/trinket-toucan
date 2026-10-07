@@ -557,7 +557,14 @@
         };
 
         let finalMatch = false;
-        const items = document.querySelectorAll(".item");
+        const itemContainer = document.getElementById("items");
+        const items = [...itemContainer.querySelectorAll(".item")];
+        for (let index = items.length - 1; index > 0; index--) {
+            const randomIndex = Math.floor(Math.random() * (index + 1));
+            [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
+        }
+        items.forEach(item => itemContainer.appendChild(item));
+
         const bins = document.querySelectorAll(".bin");
         const feedback = document.getElementById("feedback");
         const modal = document.getElementById("info-modal");
