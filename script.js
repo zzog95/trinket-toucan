@@ -119,10 +119,10 @@ function updateUI() {
     for (let i = 1; i <= 3; i++) {
         let status = document.getElementById("status" + i);
         if (progress["level" + i]) {
-            status.innerHTML = "✔ Completed";
+            status.innerHTML = "✔ Selesai";
             status.className = "completed";
         } else {
-            status.innerHTML = "Not Completed";
+            status.innerHTML = "Belum Selesai";
             status.className = "";
         }
     }
@@ -161,8 +161,12 @@ function showHubFromOutside() {
 
 if (sessionStorage.getItem("showHubAfterLoad") === "true") {
     sessionStorage.removeItem("showHubAfterLoad");
-    showHub();
-} else {
+    if (document.getElementById("hub")) {
+        showHub();
+    } else {
+        window.location.href = "../../index.html";
+    }
+} else if (document.getElementById("hub")) {
     updateUI();
 }
 

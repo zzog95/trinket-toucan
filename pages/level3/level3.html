@@ -104,6 +104,12 @@
             cursor: grab;
             user-select: none;
             transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
         }
 
         .item:hover,
@@ -116,17 +122,19 @@
             opacity: 0.45;
         }
 
-        .item strong {
+        .item-image {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
             display: block;
-            font-size: 15px;
+        }
+
+        .item strong {
+            display: none;
         }
 
         .item span {
-            display: block;
-            margin-top: 5px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px;
-            color: var(--ink-soft);
+            display: none;
         }
 
         .item.sorted {
@@ -145,6 +153,9 @@
             border-radius: 4px;
             background: #FAF8FC;
             transition: background 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .bin.over,
@@ -155,25 +166,63 @@
             border-style: solid;
         }
 
+        .bin-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+        }
+
         .bin h3 {
             margin: 0;
             font-size: 14px;
             color: var(--teal-dark);
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+        }
+
+        .bin.correct h3 {
+            display: none;
         }
 
         .bin p {
-            margin: 4px 0 0;
+            margin: 0;
             font-size: 12px;
             color: var(--ink-soft);
+        }
+
+        .bin-image {
+            width: 58px;
+            height: 58px;
+            object-fit: contain;
+            flex-shrink: 0;
+            display: none;
+        }
+
+        .bin.correct .bin-image {
+            display: none;
+        }
+
+        .bin-content {
+            display: none;
         }
 
         .sorted-item {
             margin-top: 8px;
             padding-top: 8px;
             border-top: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            gap: 8px;
             font-family: 'IBM Plex Mono', monospace;
             font-size: 12px;
             color: var(--teal-dark);
+            justify-content: center;
+        }
+
+        .sorted-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
         }
 
         #feedback {
@@ -196,6 +245,129 @@
             display: flex;
             justify-content: center;
             gap: 10px;
+            margin-top: 16px;
+        }
+
+        #info-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(38, 29, 46, 0);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: background 0.4s ease, opacity 0.4s ease;
+            z-index: 20;
+        }
+
+        #info-modal.show {
+            display: flex;
+            background: rgba(38, 29, 46, 0.45);
+            opacity: 1;
+        }
+
+        #info-content {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            padding: 24px 28px;
+            border-radius: 4px;
+            max-width: 420px;
+            text-align: center;
+            transform: scale(0.92);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        #info-modal.show #info-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #final-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(38, 29, 46, 0);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: background 0.4s ease, opacity 0.4s ease;
+            z-index: 21;
+        }
+
+        #final-modal.show {
+            display: flex;
+            background: rgba(38, 29, 46, 0.45);
+            opacity: 1;
+        }
+
+        #final-content {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            padding: 24px 28px;
+            border-radius: 4px;
+            max-width: 420px;
+            text-align: center;
+            transform: scale(0.92);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        #final-modal.show #final-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        #final-title {
+            color: var(--teal-dark);
+            font-size: 19px;
+            margin: 0 0 10px;
+        }
+
+        #final-message {
+            color: var(--ink-soft);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        #close-final-modal {
+            margin-top: 16px;
+        }
+
+        #info-title {
+            color: var(--teal-dark);
+            font-size: 19px;
+            margin: 0 0 10px;
+        }
+
+        #info-text {
+            color: var(--ink-soft);
+            font-size: 14px;
+            line-height: 1.5;
+            margin: 0 0 6px;
+        }
+
+        #info-text p,
+        #info-text ul {
+            margin: 0;
+        }
+
+        #info-text p {
+            margin-bottom: 10px;
+            text-align: justify;
+        }
+
+        #info-text ul {
+            padding-left: 22px;
+            text-align: left;
+        }
+
+        #info-text li + li {
+            margin-top: 4px;
+        }
+
+        #close-modal {
             margin-top: 16px;
         }
 
@@ -259,53 +431,81 @@
     <div class="app">
         <header>
             <div class="title-block">
-                <h1>Level 3 - Sorting Challenge</h1>
-                <p>Drag each pharmacy item into the category where it belongs.</p>
+                <h1>Tahap 3 - Susun Padan</h1>
+                <p>Padankan gambar dengan ayat yang betul.</p>
             </div>
         </header>
 
         <main class="game-layout">
             <section class="panel">
-                <h2>Items to sort</h2>
+                <h2>Images to sort</h2>
                 <div class="items" id="items">
-                    <div class="item" draggable="true" data-category="prescription">
-                        <strong>Amoxicillin</strong>
-                        <span>Medicine</span>
+                    <div class="item" draggable="true" data-category="semak" data-label="semak" data-image="../../assets/img/semak.png">
+                        <img class="item-image" src="../../assets/img/semak.png" alt="semak">
+                        <strong>Semak</strong>
                     </div>
-                    <div class="item" draggable="true" data-category="over-the-counter">
-                        <strong>Paracetamol</strong>
-                        <span>Medicine</span>
+                    <div class="item" draggable="true" data-category="hapus" data-label="hapus" data-image="../../assets/img/hapus.png">
+                        <img class="item-image" src="../../assets/img/hapus.png" alt="Hapus">
+                        <strong>Hapus</strong>
                     </div>
-                    <div class="item" draggable="true" data-category="vitamins">
-                        <strong>Vitamin C</strong>
-                        <span>Supplement</span>
+                    <div class="item" draggable="true" data-category="bungkus" data-label="bungkus" data-image="../../assets/img/bungkus.png">
+                        <img class="item-image" src="../../assets/img/bungkus.png" alt="Bungkus">
+                        <strong>Bungkus</strong>
                     </div>
-                    <div class="item" draggable="true" data-category="supplies">
-                        <strong>Bandage</strong>
-                        <span>Medical supply</span>
+                    <div class="item" draggable="true" data-category="lupus" data-label="Lupus" data-image="../../assets/img/lupus.png">
+                        <img class="item-image" src="../../assets/img/lupus.png" alt="Lupus">
+                        <strong>Lupus</strong>
+                    </div>
+                    <div class="item" draggable="true" data-category="imbas" data-label="imbas" data-image="../../assets/img/imbas.png">
+                        <img class="item-image" src="../../assets/img/imbas.png" alt="Imbas">
+                        <strong>Imbas</strong>
                     </div>
                 </div>
-                <p id="feedback" aria-live="polite">Choose an item and click a category, or drag it there.</p>
+                <p id="feedback" aria-live="polite">Pilih gambar dan seret ke padanan ayat yang betul.</p>
             </section>
 
             <section class="panel">
-                <h2>Pharmacy categories</h2>
+                <h2>5 Langkah Mudah Perlupusan Ubat</h2>
                 <div class="bins">
-                    <div class="bin" tabindex="0" data-category="prescription">
-                        <h3>Prescription</h3>
-                        <p>Requires a prescription</p>
+                    <div class="bin" tabindex="0" data-category="semak">
+                        <div class="bin-header">
+                            <h3>SEMAK</h3>
+                        </div>
+                        <div class="bin-content">
+                            <img class="bin-image" src="../../assets/img/semak.png" alt="Semak icon">
+                        </div>
                     </div>
-                    <div class="bin" tabindex="0" data-category="over-the-counter">
-                        <h3>Over the counter</h3>
-                        <p>Common non-prescription medicine</p>
+                    <div class="bin" tabindex="0" data-category="hapus">
+                        <div class="bin-header">
+                            <h3>HAPUS</h3>
+                        </div>
+                        <div class="bin-content">
+                            <img class="bin-image" src="../../assets/img/hapus.png" alt="Hapus icon">
+                        </div>
                     </div>
-                    <div class="bin" tabindex="0" data-category="vitamins">
-                        <h3>Vitamins</h3>
-                        <p>Supplements and vitamins</p>
+                    <div class="bin" tabindex="0" data-category="bungkus">
+                        <div class="bin-header">
+                            <h3>BUNGKUS</h3>
+                        </div>
+                        <div class="bin-content">
+                            <img class="bin-image" src="../../assets/img/bungkus.png" alt="Bungkus icon">
+                        </div>
                     </div>
-                    <div class="bin" tabindex="0" data-category="supplies">
-                        <h3>Medical supplies</h3>
-                        <p>Tools and care supplies</p>
+                    <div class="bin" tabindex="0" data-category="lupus">
+                        <div class="bin-header">
+                            <h3>LUPUS</h3>
+                        </div>
+                        <div class="bin-content">
+                            <img class="bin-image" src="../../assets/img/lupus.png" alt="Lupus icon">
+                        </div>
+                    </div>
+                    <div class="bin" tabindex="0" data-category="imbas">
+                        <div class="bin-header">
+                            <h3>IMBAS</h3>
+                        </div>
+                        <div class="bin-content">
+                            <img class="bin-image" src="../../assets/img/imbas.png" alt="Imbas icon">
+                        </div>
                     </div>
                 </div>
             </section>
@@ -314,15 +514,98 @@
         <div class="actions">
             <button class="ghost" onclick="showHubFromOutside()">Kembali</button>
         </div>
-        <div id="splashScreen">Level Completed!</div>
+        <div id="info-modal">
+            <div id="info-content">
+                <h2 id="info-title"></h2>
+                <div id="info-text"></div>
+                <button id="close-modal">Tutup</button>
+            </div>
+        </div>
+        <div id="final-modal" role="dialog" aria-modal="true" aria-labelledby="final-title">
+            <div id="final-content">
+                <h2 id="final-title">Peringatan Mesra</h2>
+                <p id="final-message">Ubat yang <b>dipulangkan tidak</b> boleh digunakan <b>semula</b> untuk <b>pesakit lain</b>. Ubat tersebut akan <b>dilupuskan</b> dengan <b>cara yang betul</b> melalui <b>syarikat pelupusan</b>.</p>
+                <p><break></break><b>Pelupusan Ubat-ubatan Secara Selamat, Tanggungjawab Semua</b></p>
+                <button id="close-final-modal">Tutup</button>
+            </div>
+        </div>
+        <div id="splashScreen">Tahap Selesai!</div>
     </div>
 
     <script>
+        const modalContentByCategory = {
+            semak: {
+                title: 'SEMAK',
+                message: '<p>Semak dan asing ubat yang telah rosak dan melepasi tarihk luput.</p>'
+            },
+            hapus: {
+                title: 'HAPUS',
+                message: '<p>Hapus label keselamatan hologram dan maklumat peribadi pada pembungkusan ubat.</p>'
+            },
+            bungkus: {
+                title: 'BUNGKUS',
+                message: '<p>Bungkus ubat dalam bekas yang bersesuaian tanpa perlu dikeluarkan daripada bekas asal.</p>'
+            },
+            lupus: {
+                title: 'LUPUS',
+                message: '<p>Bawa ubat tersebut ke lokasi pengumpulan ubat.</p>'
+            },
+            imbas: {
+                title: 'IMBAS',
+                message: '<p>Imbas kod QR pada bin pengumpulan ubat dan jawab soalan tinjauan.</p>'
+            }
+        };
+
+        let finalMatch = false;
         const items = document.querySelectorAll(".item");
         const bins = document.querySelectorAll(".bin");
         const feedback = document.getElementById("feedback");
+        const modal = document.getElementById("info-modal");
+        const infoTitle = document.getElementById("info-title");
+        const infoText = document.getElementById("info-text");
+        const closeBtn = document.getElementById("close-modal");
+        const finalModal = document.getElementById("final-modal");
+        const closeFinalBtn = document.getElementById("close-final-modal");
         let selectedItem = null;
         let sortedCount = 0;
+
+        function showInfo(category) {
+            const content = modalContentByCategory[category];
+            if (!content) return;
+
+            infoTitle.textContent = content.title;
+            infoText.innerHTML = content.message;
+
+            modal.style.display = "flex";
+            requestAnimationFrame(() => {
+                modal.classList.add("show");
+            });
+        }
+
+        function closeInfoModal() {
+            modal.classList.remove("show");
+            setTimeout(() => {
+                modal.style.display = "none";
+
+                if (finalMatch && typeof completeLevel === "function") {
+                    finalMatch = false;
+                    finalModal.style.display = "flex";
+                    requestAnimationFrame(() => {
+                        finalModal.classList.add("show");
+                    });
+                }
+            }, 400);
+        }
+
+        closeFinalBtn.addEventListener("click", () => {
+            finalModal.classList.remove("show");
+            setTimeout(() => {
+                finalModal.style.display = "none";
+                if (typeof completeLevel === "function") {
+                    completeLevel();
+                }
+            }, 400);
+        });
 
         function setFeedback(message, type = "") {
             feedback.textContent = message;
@@ -341,20 +624,36 @@
 
             const placedItem = document.createElement("div");
             placedItem.className = "sorted-item";
-            placedItem.textContent = item.querySelector("strong").textContent;
+
+            const itemImage = document.createElement("img");
+            itemImage.src = item.dataset.image || "";
+            itemImage.alt = item.dataset.label || "Sorted item";
+            placedItem.appendChild(itemImage);
+
+            bin.classList.add("correct");
             bin.appendChild(placedItem);
             item.classList.add("sorted");
             item.classList.remove("selected");
             selectedItem = null;
             sortedCount += 1;
 
+            showInfo(bin.dataset.category);
+
             if (sortedCount === items.length) {
-                setFeedback("All items sorted correctly. Level complete!", "success");
-                completeLevel();
+                setFeedback("All items sorted correctly. Read the final message to continue.", "success");
+                finalMatch = true;
             } else {
                 setFeedback(`${sortedCount} of ${items.length} items sorted correctly.`, "success");
             }
         }
+
+        closeBtn.addEventListener("click", closeInfoModal);
+
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                closeInfoModal();
+            }
+        });
 
         items.forEach(item => {
             item.addEventListener("dragstart", event => {

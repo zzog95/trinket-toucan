@@ -1,8 +1,9 @@
 (function () {
-    const WORD_BANK = [
-        "TABLET", "KAPSUL", "DOS", "FARMASI",
+    const WORD_BANK = [ // PERINGTAN: tambah ayat di sini, ayat tidak melebihi 10 huruf, dan tidak mengandungi aksara khas
+        "TABLET", "KAPSUL", "KOSMETIK", "FARMASI",
         "VAKSIN", "ALERGI", "GENERIK", "INSULIN",
-        "SUHU", "ANTIBIOTIK", "UBAT", "PRESKRIPSI"
+        "MYUBAT", "ANTIBIOTIK", "INTERAKSI", "PRESKRIPSI",
+        "HOLOGRAM", "ARAHAN", "DAFTAR"
     ];
     const WORDS_PER_GAME = 8;
 
