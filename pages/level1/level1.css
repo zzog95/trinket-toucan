@@ -55,7 +55,7 @@ body#levelScreen {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: 100vh;
     max-width: 100%;
     overflow-x: hidden;
@@ -65,7 +65,7 @@ body#levelScreen {
 }
 
 .app {
-    --card-width: clamp(50px, min(11.7vw, 18vh), 160px);
+    --card-width: clamp(50px, min(14vw, 25vh), 190px);
     --card-height: calc(var(--card-width) * 1.37);
     width: 100%;
     max-width: min(1280px, calc(100vw - 24px));
@@ -85,14 +85,20 @@ body#levelScreen {
 }
 
 header {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
     text-align: center;
     border-bottom: 1px solid var(--line);
     padding-bottom: 16px;
     margin-bottom: 20px;
+    position: relative;
 }
 
 .title-block {
+    flex: 1 1 auto;
+    min-width: 0;
     width: 100%;
     text-align: center;
     margin: 0 auto;
@@ -100,6 +106,17 @@ header {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.header-actions {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.header-actions button {
+    min-width: 120px;
 }
 
 .title-block h1 {
@@ -324,7 +341,6 @@ button:hover {
 }
 
 .back-btn {
-    margin-top: 12px;
     background: transparent;
     color: var(--teal);
 }
@@ -355,16 +371,18 @@ header {
     margin-bottom: 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 16px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     text-align: center;
     position: relative;
 }
 
 .title-block {
     text-align: center;
-    width: 100%;
+    width: auto;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 @media (max-width: 1366px) {
@@ -416,6 +434,16 @@ header {
 }
 
 @media (max-width: 600px) {
+    header {
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .header-actions button {
+        min-width: 0;
+        padding: 8px 10px;
+    }
+
     body#levelScreen {
         padding: 12px;
     }

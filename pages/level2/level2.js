@@ -440,6 +440,9 @@
         selecting = false;
         selectionPath = [];
         completionPending = false;
+        if (typeof setLevelControlsDisabled === 'function') {
+            setLevelControlsDisabled(false);
+        }
         splashScreen.classList.remove('show');
         document.getElementById('highlight-svg').innerHTML = '';
         buildGrid();

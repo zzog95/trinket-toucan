@@ -58,6 +58,13 @@ body {
     padding: 20px 16px;
     max-width: 100%;
     overflow-x: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+    background: transparent;
 }
 
 .app {
@@ -160,6 +167,8 @@ header {
     gap: 8px;
     text-align: center;
     position: relative;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .item:hover,

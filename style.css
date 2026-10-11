@@ -26,6 +26,16 @@
     font-style: italic;
 }
 
+* {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+    background: transparent;
+}
+
 :root {
     --ink: #1E1A22;
     --ink-soft: #39313E;

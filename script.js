@@ -23,6 +23,15 @@ let progress = JSON.parse(localStorage.getItem("progress")) || {
 
 let win = document.getElementById('splashScreen');
 
+function setLevelControlsDisabled(disabled) {
+    document.querySelectorAll('button').forEach(button => {
+        if (button.id === 'close-modal') return;
+        button.disabled = disabled;
+        button.style.pointerEvents = disabled ? 'none' : '';
+        button.setAttribute('aria-disabled', String(disabled));
+    });
+}
+
 document.addEventListener("contextmenu", event => {
     event.preventDefault();
 });
@@ -91,6 +100,7 @@ function completeLevel() {
     const level = currentLevel || getCurrentLevelFromPath();
     if (!level) return;
 
+    setLevelControlsDisabled(true);
     progress["level" + level] = true;
     localStorage.setItem("progress", JSON.stringify(progress));
     sessionStorage.setItem("showHubAfterLoad", "true");

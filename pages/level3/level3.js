@@ -52,6 +52,10 @@ function showInfo(category) {
     const content = modalContentByCategory[category];
     if (!content) return;
 
+    if (typeof setLevelControlsDisabled === "function") {
+        setLevelControlsDisabled(true);
+    }
+
     infoTitle.textContent = content.title;
     infoText.innerHTML = content.message;
 
@@ -65,6 +69,10 @@ function closeInfoModal() {
     modal.classList.remove("show");
     setTimeout(() => {
         modal.style.display = "none";
+
+        if (typeof setLevelControlsDisabled === "function") {
+            setLevelControlsDisabled(false);
+        }
 
         if (finalMatch && typeof completeLevel === "function") {
             finalMatch = false;
@@ -80,6 +88,9 @@ closeFinalBtn.addEventListener("click", () => {
     finalModal.classList.remove("show");
     setTimeout(() => {
         finalModal.style.display = "none";
+        if (typeof setLevelControlsDisabled === "function") {
+            setLevelControlsDisabled(true);
+        }
         if (typeof completeLevel === "function") {
             completeLevel();
         }
@@ -97,7 +108,7 @@ function sortItem(item, bin) {
     if (item.dataset.category !== bin.dataset.category) {
         item.classList.remove("selected");
         selectedItem = null;
-        setFeedback("That item belongs in a different category. Try again.", "error");
+        setFeedback("Gambar tidak berada di kategori yang betul. Sila cuba lagi.", "error");
         return;
     }
 
@@ -119,10 +130,10 @@ function sortItem(item, bin) {
     showInfo(bin.dataset.category);
 
     if (sortedCount === items.length) {
-        setFeedback("All items sorted correctly. Read the final message to continue.", "success");
+        setFeedback("Kesemua gambar disusun dengan betul.", "success");
         finalMatch = true;
     } else {
-        setFeedback(`${sortedCount} of ${items.length} items sorted correctly.`, "success");
+        setFeedback(`${sortedCount} / ${items.length} gambar disusun dengan betul.`, "success");
     }
 }
 
@@ -156,7 +167,7 @@ items.forEach(item => {
         items.forEach(otherItem => otherItem.classList.remove("selected"));
         selectedItem = item;
         item.classList.add("selected");
-        setFeedback("Now click the category where this item belongs.");
+        setFeedback("Sekarang klik kategori di mana gambar ini berada.");
     });
 });
 

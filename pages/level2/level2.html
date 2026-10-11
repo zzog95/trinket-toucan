@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <title>Pharmacy Word Search</title>
+    <link rel="icon" href="../../assets/icon/meditips.ico" type="image/x-icon">
   <link rel="manifest" href="../../manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="level2.css">
@@ -28,6 +29,9 @@
         <!-- <div><strong id="timer">00:00</strong></div> -->
         <div id="progress">0 / 0 ditemukan</div>
       </div>
+      <div class="header-actions">
+        <button class="ghost" onclick="showHubFromOutside()">Kembali</button>
+      </div>
     </header>
 
     <main>
@@ -45,10 +49,6 @@
         </div>
         <div class="panel">
           <button id="restart-btn">Mula Semula</button>
-          <div><br></div>
-          <button onclick="showHubFromOutside()">
-            Kembali
-          </button>
         </div>
       </div>
     </main>

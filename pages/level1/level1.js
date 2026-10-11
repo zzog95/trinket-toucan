@@ -188,6 +188,10 @@ function showInfo(title, message) {
     const imageName = title || "info";
     const imageSrc = `../../assets/img/${imageName}.png`;
 
+    if (typeof setLevelControlsDisabled === "function") {
+        setLevelControlsDisabled(true);
+    }
+
     infoImg.innerHTML = `
         <img
             src="${imageSrc}"
@@ -211,6 +215,10 @@ function hideInfoModal() {
     setTimeout(() => {
         modal.style.display = "none";
         modal.setAttribute("aria-hidden", "true");
+
+        if (typeof setLevelControlsDisabled === "function") {
+            setLevelControlsDisabled(false);
+        }
 
         if (finalMatch && typeof completeLevel === "function") {
             completeLevel();
