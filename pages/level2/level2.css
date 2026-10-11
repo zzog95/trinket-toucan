@@ -1,8 +1,36 @@
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
+
 :root {
     --bg: #F4F0F7;
     --panel: #FFFFFF;
-    --ink: #261D2E;
-    --ink-soft: #62596B;
+    --ink: #1E1A22;
+    --ink-soft: #39313E;
     --teal: #75509A;
     --teal-dark: #50366E;
     --amber: #D98E2B;
@@ -22,7 +50,7 @@ body {
     min-height: 100%;
     background: var(--bg);
     color: var(--ink);
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
 }
@@ -34,11 +62,13 @@ body {
     justify-content: center;
     padding: 16px;
     box-sizing: border-box;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .app {
     width: 100%;
-    max-width: 1280px;
+    max-width: min(1280px, calc(100vw - 24px));
 }
 
 header {
@@ -46,10 +76,22 @@ header {
     padding-bottom: 14px;
     margin-bottom: 16px;
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    position: relative;
+}
+
+.title-block {
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .title-block h1 {
@@ -61,18 +103,21 @@ header {
 }
 
 .title-block p {
-    margin: 6px 0 0;
+    margin: 6px auto 0;
     font-size: 14px;
     color: var(--ink-soft);
     max-width: 46ch;
+    text-align: center;
 }
 
 .meta {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     font-size: 13px;
     color: var(--ink-soft);
-    text-align: right;
+    text-align: center;
     line-height: 1.6;
+    margin: 0;
+    width: 100%;
 }
 
 .meta strong {
@@ -85,6 +130,49 @@ main {
     grid-template-columns: minmax(0, 1fr) 240px;
     gap: 18px;
     align-items: start;
+    max-width: min(100%, 1180px);
+    margin: 0 auto;
+}
+
+@media (max-width: 1366px) {
+    body {
+        padding: 12px;
+    }
+
+    .app {
+        max-width: 1180px;
+    }
+
+    main {
+        gap: 14px;
+    }
+
+    .board-wrap {
+        padding: 12px;
+    }
+
+    .grid-stack {
+        width: min(100%, 64vh);
+    }
+}
+
+@media (max-height: 650px) {
+    body {
+        padding: 10px;
+    }
+
+    header {
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+    }
+
+    .panel {
+        padding: 10px 12px;
+    }
+
+    .sidebar {
+        gap: 8px;
+    }
 }
 
 @media (max-width: 720px) {
@@ -144,7 +232,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     font-weight: 600;
     font-size: clamp(14px, 3.4vw, 26px);
     color: var(--ink);
@@ -189,7 +277,7 @@ main {
 
 .panel h2 {
     margin: 0 0 12px;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--ink-soft);
 }
@@ -201,8 +289,8 @@ main {
     display: flex;
     flex-direction: column;
     gap: 9px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+    font-size: 15px;
 }
 
 #wordlist li {
@@ -218,9 +306,9 @@ main {
 }
 
 button {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     border: 1px solid var(--teal);
     background: var(--teal);
     color: #fff;
@@ -245,6 +333,78 @@ button.ghost:hover {
     color: #fff;
 }
 
+#info-modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(38, 29, 46, 0.35);
+    z-index: 40;
+}
+
+#info-modal.show {
+    display: flex;
+}
+
+#info-content {
+    width: min(520px, calc(100vw - 32px));
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 22px 24px 20px;
+    box-shadow: 0 12px 30px rgba(38, 29, 46, 0.18);
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 18px 20px;
+    align-items: center;
+}
+
+#info-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 110px;
+}
+
+#info-img img {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    display: block;
+}
+
+#info-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+}
+
+#info-text h3 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: var(--teal-dark);
+    line-height: 1.2;
+}
+
+#info-text p,
+#info-text ul {
+    margin: 0;
+}
+
+#info-text ul {
+    padding-left: 18px;
+    margin-top: 8px;
+}
+
+#close-modal {
+    grid-column: 1 / -1;
+    width: auto;
+    justify-self: end;
+    min-width: 110px;
+}
+
 #splashScreen {
     display: none;
     position: fixed;
@@ -254,7 +414,7 @@ button.ghost:hover {
     transform: translate(-50%, -50%);
     background: #fff;
     color: #261D2E;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     font-size: 26px;
     font-weight: 700;
     letter-spacing: -0.01em;

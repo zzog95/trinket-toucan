@@ -7,10 +7,6 @@
     <title>Kenali Ubat Anda</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
-        rel="stylesheet">
     <style>
         :root {
             --bg: #F4F0F7;
@@ -36,19 +32,22 @@
         }
 
         body {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+            font-size: 17px;
             background: var(--bg);
-            color: var(--ink);
+            color: #1E1A22;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .screen {
             width: 100%;
-            max-width: 1200px;
+            max-width: min(1200px, calc(100vw - 24px));
             text-align: center;
         }
 
@@ -57,7 +56,7 @@
         }
 
         .screen h1 {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 700;
             letter-spacing: -0.01em;
             color: var(--teal-dark);
@@ -65,9 +64,9 @@
         }
 
         button {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: 'Comic Neue', 'Comic Sans MS', cursive;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 16px;
             border: 1px solid var(--teal);
             background: var(--teal);
             color: #fff;
@@ -122,19 +121,20 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
+            max-width: calc(100vw - 32px);
         }
 
         .level h2 {
             margin: 0;
-            font-size: 17px;
+            font-size: 20px;
             font-weight: 600;
             color: var(--teal-dark);
         }
 
         .level p {
             margin: 0;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
+            font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+            font-size: 14px;
             color: var(--ink-soft);
         }
 
@@ -163,6 +163,33 @@
         #bossBtn:not(:disabled):hover {
             background: #c07f24;
             border-color: #c07f24;
+        }
+
+        @media (max-width: 1366px) {
+            body {
+                padding: 14px;
+                font-size: 16px;
+            }
+
+            .level {
+                width: min(260px, calc(100vw - 30px));
+                padding: 16px;
+            }
+        }
+
+        @media (max-height: 650px) {
+            body {
+                padding: 10px;
+            }
+
+            .screen {
+                padding: 12px;
+            }
+
+            .level {
+                padding: 14px;
+                gap: 8px;
+            }
         }
     </style>
 </head>

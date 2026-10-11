@@ -1,11 +1,54 @@
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('./assets/font/ComicNeue-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('./assets/font/ComicNeue-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('./assets/font/ComicNeue-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('./assets/font/ComicNeue-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+:root {
+    --ink: #1E1A22;
+    --ink-soft: #39313E;
+    --panel: #FFFFFF;
+    --bg: #F4F0F7;
+    --line: #D7CBE2;
+    --teal: #75509A;
+    --teal-dark: #50366E;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+    font-size: 17px;
     text-align: center;
     background: #F4F0F7;
+    color: var(--ink);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .screen {
     padding: 24px;
+    max-width: 100%;
 }
 
 .hidden {
@@ -33,6 +76,7 @@ button {
     margin: 10px;
     cursor: pointer;
     font-size: 16px;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
 }
 
 .completed {
@@ -46,10 +90,11 @@ button {
     top: 50%;
     left: 50%;
     width: min(360px, calc(100vw - 40px));
+    max-width: 100%;
     transform: translate(-50%, -50%);
     background: #fff;
-    color: #261D2E;
-    font-family: 'IBM Plex Sans', sans-serif;
+    color: #1E1A22;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     font-size: 26px;
     font-weight: 700;
     letter-spacing: -0.01em;
@@ -60,4 +105,35 @@ button {
     box-shadow: 0 0 0 100vmax rgba(38, 29, 46, 0.18), 0 14px 32px rgba(38, 29, 46, 0.16);
     cursor: pointer;
     z-index: 30;
+}
+
+@media (max-width: 1366px) {
+    body {
+        font-size: 16px;
+    }
+
+    .screen {
+        padding: 18px;
+    }
+
+    .level {
+        width: min(260px, calc(100vw - 32px));
+        margin: 12px auto;
+        padding: 16px;
+    }
+}
+
+@media (max-height: 650px) {
+    .screen {
+        padding: 12px;
+    }
+
+    .level {
+        margin: 10px auto;
+        padding: 14px;
+    }
+
+    #splashScreen {
+        padding: 36px 20px;
+    }
 }

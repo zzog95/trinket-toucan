@@ -7,419 +7,12 @@
     <title>Level 3 - Sorting Challenge</title>
     <link rel="manifest" href="../../manifest.json">
     <link rel="stylesheet" href="../../style.css" />
+    <link rel="stylesheet" href="level3.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            --bg: #F4F0F7;
-            --panel: #FFFFFF;
-            --ink: #261D2E;
-            --ink-soft: #62596B;
-            --teal: #75509A;
-            --teal-dark: #50366E;
-            --amber: #D98E2B;
-            --amber-soft: #F6E3C4;
-            --line: #D7CBE2;
-            --error: #A94A3A;
-        }
 
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            min-height: 100%;
-            margin: 0;
-        }
-
-        body {
-            font-family: 'IBM Plex Sans', sans-serif;
-            background: var(--bg);
-            color: var(--ink);
-            display: flex;
-            justify-content: center;
-            padding: 20px 16px;
-        }
-
-        .app {
-            width: 100%;
-            max-width: 1240px;
-        }
-
-        header {
-            border-bottom: 1px solid var(--line);
-            padding-bottom: 14px;
-            margin-bottom: 16px;
-        }
-
-        .title-block h1 {
-            margin: 0;
-            font-size: 26px;
-            font-weight: 700;
-            color: var(--teal-dark);
-        }
-
-        .title-block p {
-            margin: 6px 0 0;
-            font-size: 14px;
-            color: var(--ink-soft);
-        }
-
-        .game-layout {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 260px;
-            gap: 18px;
-            align-items: start;
-        }
-
-        .panel {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 4px;
-            padding: 16px;
-        }
-
-        .panel h2 {
-            margin: 0 0 16px;
-            font-size: 15px;
-            color: var(--teal-dark);
-        }
-
-        .items {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 12px;
-        }
-
-        .item {
-            min-height: 92px;
-            padding: 16px;
-            border: 1px solid var(--teal);
-            border-radius: 4px;
-            background: #FAF8FC;
-            color: var(--teal-dark);
-            cursor: grab;
-            user-select: none;
-            transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            text-align: center;
-        }
-
-        .item:hover,
-        .item.selected {
-            background: var(--amber-soft);
-            border-color: var(--amber);
-        }
-
-        .item.dragging {
-            opacity: 0.45;
-        }
-
-        .item-image {
-            width: 72px;
-            height: 72px;
-            object-fit: contain;
-            display: block;
-        }
-
-        .item strong {
-            display: none;
-        }
-
-        .item span {
-            display: none;
-        }
-
-        .item.sorted {
-            display: none;
-        }
-
-        .bins {
-            display: grid;
-            gap: 12px;
-        }
-
-        .bin {
-            min-height: 82px;
-            padding: 14px;
-            border: 1px dashed var(--teal);
-            border-radius: 4px;
-            background: #FAF8FC;
-            transition: background 0.2s ease, border-color 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .bin.over,
-        .bin:focus {
-            outline: none;
-            background: var(--amber-soft);
-            border-color: var(--amber);
-            border-style: solid;
-        }
-
-        .bin-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .bin h3 {
-            margin: 0;
-            font-size: 14px;
-            color: var(--teal-dark);
-            transition: opacity 0.2s ease, visibility 0.2s ease;
-        }
-
-        .bin.correct h3 {
-            display: none;
-        }
-
-        .bin p {
-            margin: 0;
-            font-size: 12px;
-            color: var(--ink-soft);
-        }
-
-        .bin-image {
-            width: 58px;
-            height: 58px;
-            object-fit: contain;
-            flex-shrink: 0;
-            display: none;
-        }
-
-        .bin.correct .bin-image {
-            display: none;
-        }
-
-        .bin-content {
-            display: none;
-        }
-
-        .sorted-item {
-            margin-top: 8px;
-            padding-top: 8px;
-            border-top: 1px solid var(--line);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
-            color: var(--teal-dark);
-            justify-content: center;
-        }
-
-        .sorted-item img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-        }
-
-        #feedback {
-            min-height: 22px;
-            margin: 18px 0 0;
-            font-size: 13px;
-            color: var(--ink-soft);
-        }
-
-        #feedback.error {
-            color: var(--error);
-        }
-
-        #feedback.success {
-            color: var(--teal-dark);
-            font-weight: 600;
-        }
-
-        .actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 16px;
-        }
-
-        #info-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(38, 29, 46, 0);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: background 0.4s ease, opacity 0.4s ease;
-            z-index: 20;
-        }
-
-        #info-modal.show {
-            display: flex;
-            background: rgba(38, 29, 46, 0.45);
-            opacity: 1;
-        }
-
-        #info-content {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            padding: 24px 28px;
-            border-radius: 4px;
-            max-width: 420px;
-            text-align: center;
-            transform: scale(0.92);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        #info-modal.show #info-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        #final-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(38, 29, 46, 0);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: background 0.4s ease, opacity 0.4s ease;
-            z-index: 21;
-        }
-
-        #final-modal.show {
-            display: flex;
-            background: rgba(38, 29, 46, 0.45);
-            opacity: 1;
-        }
-
-        #final-content {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            padding: 24px 28px;
-            border-radius: 4px;
-            max-width: 420px;
-            text-align: center;
-            transform: scale(0.92);
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        #final-modal.show #final-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        #final-title {
-            color: var(--teal-dark);
-            font-size: 19px;
-            margin: 0 0 10px;
-        }
-
-        #final-message {
-            color: var(--ink-soft);
-            font-size: 14px;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        #close-final-modal {
-            margin-top: 16px;
-        }
-
-        #info-title {
-            color: var(--teal-dark);
-            font-size: 19px;
-            margin: 0 0 10px;
-        }
-
-        #info-text {
-            color: var(--ink-soft);
-            font-size: 14px;
-            line-height: 1.5;
-            margin: 0 0 6px;
-        }
-
-        #info-text p,
-        #info-text ul {
-            margin: 0;
-        }
-
-        #info-text p {
-            margin-bottom: 10px;
-            text-align: justify;
-        }
-
-        #info-text ul {
-            padding-left: 22px;
-            text-align: left;
-        }
-
-        #info-text li + li {
-            margin-top: 4px;
-        }
-
-        #close-modal {
-            margin-top: 16px;
-        }
-
-        button {
-            font-family: 'IBM Plex Sans', sans-serif;
-            font-weight: 600;
-            font-size: 14px;
-            border: 1px solid var(--teal);
-            background: var(--teal);
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        button:hover:not(:disabled) {
-            background: var(--teal-dark);
-            border-color: var(--teal-dark);
-        }
-
-        button:disabled {
-            background: var(--line);
-            border-color: var(--line);
-            color: var(--ink-soft);
-            cursor: not-allowed;
-        }
-
-        button.ghost {
-            background: transparent;
-            color: var(--teal);
-        }
-
-        @media (max-width: 720px) {
-            body {
-                padding: 24px 14px;
-            }
-
-            .game-layout {
-                grid-template-columns: 1fr;
-            }
-
-            .items {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 430px) {
-            .items {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body id="levelScreen" class="screen">
@@ -434,29 +27,32 @@
                 <h1>Tahap 3 - Susun Padan</h1>
                 <p>Padankan gambar dengan ayat yang betul.</p>
             </div>
+            <div class="header-actions">
+                <button class="ghost" onclick="showHubFromOutside()">Kembali</button>
+            </div>
         </header>
 
         <main class="game-layout">
             <section class="panel">
                 <h2>Images to sort</h2>
                 <div class="items" id="items">
-                    <div class="item" draggable="true" data-category="semak" data-label="semak" data-image="../../assets/img/semak.png">
+                    <div class="item" data-category="semak" data-label="semak" data-image="../../assets/img/semak.png">
                         <img class="item-image" src="../../assets/img/semak.png" alt="semak">
                         <strong>Semak</strong>
                     </div>
-                    <div class="item" draggable="true" data-category="hapus" data-label="hapus" data-image="../../assets/img/hapus.png">
+                    <div class="item" data-category="hapus" data-label="hapus" data-image="../../assets/img/hapus.png">
                         <img class="item-image" src="../../assets/img/hapus.png" alt="Hapus">
                         <strong>Hapus</strong>
                     </div>
-                    <div class="item" draggable="true" data-category="bungkus" data-label="bungkus" data-image="../../assets/img/bungkus.png">
+                    <div class="item" data-category="bungkus" data-label="bungkus" data-image="../../assets/img/bungkus.png">
                         <img class="item-image" src="../../assets/img/bungkus.png" alt="Bungkus">
                         <strong>Bungkus</strong>
                     </div>
-                    <div class="item" draggable="true" data-category="lupus" data-label="Lupus" data-image="../../assets/img/lupus.png">
+                    <div class="item" data-category="lupus" data-label="Lupus" data-image="../../assets/img/lupus.png">
                         <img class="item-image" src="../../assets/img/lupus.png" alt="Lupus">
                         <strong>Lupus</strong>
                     </div>
-                    <div class="item" draggable="true" data-category="imbas" data-label="imbas" data-image="../../assets/img/imbas.png">
+                    <div class="item" data-category="imbas" data-label="imbas" data-image="../../assets/img/imbas.png">
                         <img class="item-image" src="../../assets/img/imbas.png" alt="Imbas">
                         <strong>Imbas</strong>
                     </div>
@@ -511,9 +107,6 @@
             </section>
         </main>
 
-        <div class="actions">
-            <button class="ghost" onclick="showHubFromOutside()">Kembali</button>
-        </div>
         <div id="info-modal">
             <div id="info-content">
                 <h2 id="info-title"></h2>
@@ -525,190 +118,14 @@
             <div id="final-content">
                 <h2 id="final-title">Peringatan Mesra</h2>
                 <p id="final-message">Ubat yang <b>dipulangkan tidak</b> boleh digunakan <b>semula</b> untuk <b>pesakit lain</b>. Ubat tersebut akan <b>dilupuskan</b> dengan <b>cara yang betul</b> melalui <b>syarikat pelupusan</b>.</p>
-                <p><break></break><b>Pelupusan Ubat-ubatan Secara Selamat, Tanggungjawab Semua</b></p>
+                <p id="final-message2"><break></break><b>Pelupusan Ubat-ubatan Secara Selamat, Tanggungjawab Semua</b></p>
                 <button id="close-final-modal">Tutup</button>
             </div>
         </div>
         <div id="splashScreen">Tahap Selesai!</div>
     </div>
 
-    <script>
-        const modalContentByCategory = {
-            semak: {
-                title: 'SEMAK',
-                message: '<p>Semak dan asing ubat yang telah rosak dan melepasi tarihk luput.</p>'
-            },
-            hapus: {
-                title: 'HAPUS',
-                message: '<p>Hapus label keselamatan hologram dan maklumat peribadi pada pembungkusan ubat.</p>'
-            },
-            bungkus: {
-                title: 'BUNGKUS',
-                message: '<p>Bungkus ubat dalam bekas yang bersesuaian tanpa perlu dikeluarkan daripada bekas asal.</p>'
-            },
-            lupus: {
-                title: 'LUPUS',
-                message: '<p>Bawa ubat tersebut ke lokasi pengumpulan ubat.</p>'
-            },
-            imbas: {
-                title: 'IMBAS',
-                message: '<p>Imbas kod QR pada bin pengumpulan ubat dan jawab soalan tinjauan.</p>'
-            }
-        };
-
-        let finalMatch = false;
-        const itemContainer = document.getElementById("items");
-        const items = [...itemContainer.querySelectorAll(".item")];
-        for (let index = items.length - 1; index > 0; index--) {
-            const randomIndex = Math.floor(Math.random() * (index + 1));
-            [items[index], items[randomIndex]] = [items[randomIndex], items[index]];
-        }
-        items.forEach(item => itemContainer.appendChild(item));
-
-        const bins = document.querySelectorAll(".bin");
-        const feedback = document.getElementById("feedback");
-        const modal = document.getElementById("info-modal");
-        const infoTitle = document.getElementById("info-title");
-        const infoText = document.getElementById("info-text");
-        const closeBtn = document.getElementById("close-modal");
-        const finalModal = document.getElementById("final-modal");
-        const closeFinalBtn = document.getElementById("close-final-modal");
-        let selectedItem = null;
-        let sortedCount = 0;
-
-        function showInfo(category) {
-            const content = modalContentByCategory[category];
-            if (!content) return;
-
-            infoTitle.textContent = content.title;
-            infoText.innerHTML = content.message;
-
-            modal.style.display = "flex";
-            requestAnimationFrame(() => {
-                modal.classList.add("show");
-            });
-        }
-
-        function closeInfoModal() {
-            modal.classList.remove("show");
-            setTimeout(() => {
-                modal.style.display = "none";
-
-                if (finalMatch && typeof completeLevel === "function") {
-                    finalMatch = false;
-                    finalModal.style.display = "flex";
-                    requestAnimationFrame(() => {
-                        finalModal.classList.add("show");
-                    });
-                }
-            }, 400);
-        }
-
-        closeFinalBtn.addEventListener("click", () => {
-            finalModal.classList.remove("show");
-            setTimeout(() => {
-                finalModal.style.display = "none";
-                if (typeof completeLevel === "function") {
-                    completeLevel();
-                }
-            }, 400);
-        });
-
-        function setFeedback(message, type = "") {
-            feedback.textContent = message;
-            feedback.className = type;
-        }
-
-        function sortItem(item, bin) {
-            if (!item || item.classList.contains("sorted")) return;
-
-            if (item.dataset.category !== bin.dataset.category) {
-                item.classList.remove("selected");
-                selectedItem = null;
-                setFeedback("That item belongs in a different category. Try again.", "error");
-                return;
-            }
-
-            const placedItem = document.createElement("div");
-            placedItem.className = "sorted-item";
-
-            const itemImage = document.createElement("img");
-            itemImage.src = item.dataset.image || "";
-            itemImage.alt = item.dataset.label || "Sorted item";
-            placedItem.appendChild(itemImage);
-
-            bin.classList.add("correct");
-            bin.appendChild(placedItem);
-            item.classList.add("sorted");
-            item.classList.remove("selected");
-            selectedItem = null;
-            sortedCount += 1;
-
-            showInfo(bin.dataset.category);
-
-            if (sortedCount === items.length) {
-                setFeedback("All items sorted correctly. Read the final message to continue.", "success");
-                finalMatch = true;
-            } else {
-                setFeedback(`${sortedCount} of ${items.length} items sorted correctly.`, "success");
-            }
-        }
-
-        closeBtn.addEventListener("click", closeInfoModal);
-
-        modal.addEventListener("click", (event) => {
-            if (event.target === modal) {
-                closeInfoModal();
-            }
-        });
-
-        items.forEach(item => {
-            item.addEventListener("dragstart", event => {
-                event.dataTransfer.setData("text/plain", item.dataset.category);
-                item.classList.add("dragging");
-            });
-
-            item.addEventListener("dragend", () => {
-                item.classList.remove("dragging");
-            });
-
-            item.addEventListener("click", () => {
-                items.forEach(otherItem => otherItem.classList.remove("selected"));
-                selectedItem = item;
-                item.classList.add("selected");
-                setFeedback("Now click the category where this item belongs.");
-            });
-        });
-
-        bins.forEach(bin => {
-            bin.addEventListener("dragover", event => {
-                event.preventDefault();
-                bin.classList.add("over");
-            });
-
-            bin.addEventListener("dragleave", () => {
-                bin.classList.remove("over");
-            });
-
-            bin.addEventListener("drop", event => {
-                event.preventDefault();
-                bin.classList.remove("over");
-                const draggedItem = [...items].find(item => item.dataset.category === event.dataTransfer.getData("text/plain") && !item.classList.contains("sorted"));
-                sortItem(draggedItem, bin);
-            });
-
-            bin.addEventListener("click", () => {
-                sortItem(selectedItem, bin);
-            });
-
-            bin.addEventListener("keydown", event => {
-                if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    sortItem(selectedItem, bin);
-                }
-            });
-        });
-    </script>
+    <script src="level3.js"></script>
 
     <script src="../../script.js"></script>
 </body>

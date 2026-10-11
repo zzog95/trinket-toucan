@@ -1,8 +1,36 @@
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Comic Neue';
+    src: url('../../assets/font/ComicNeue-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+}
+
 :root {
     --bg: #F4F0F7;
     --panel: #FFFFFF;
-    --ink: #261D2E;
-    --ink-soft: #62596B;
+    --ink: #1E1A22;
+    --ink-soft: #39313E;
     --teal: #75509A;
     --teal-dark: #50366E;
     --amber: #D98E2B;
@@ -21,7 +49,7 @@ body#levelScreen {
 }
 
 body#levelScreen {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     background: var(--bg);
     color: var(--ink);
     display: flex;
@@ -29,6 +57,8 @@ body#levelScreen {
     align-items: center;
     justify-content: center;
     min-height: 100vh;
+    max-width: 100%;
+    overflow-x: hidden;
     padding: 10px;
     margin: 0;
     box-sizing: border-box;
@@ -38,11 +68,11 @@ body#levelScreen {
     --card-width: clamp(50px, min(11.7vw, 18vh), 160px);
     --card-height: calc(var(--card-width) * 1.37);
     width: 100%;
-    max-width: 1280px;
+    max-width: min(1280px, calc(100vw - 24px));
 }
 
 #levelTitle {
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--teal-dark);
@@ -54,12 +84,43 @@ body#levelScreen {
     text-align: center;
 }
 
+header {
+    display: block;
+    text-align: center;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+    margin-bottom: 20px;
+}
+
+.title-block {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title-block h1 {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.title-block p {
+    margin: 8px auto 0;
+    max-width: 60ch;
+    text-align: center;
+}
+
 #game-board {
     display: grid;
     grid-template-columns: repeat(5, var(--card-width));
     grid-template-rows: repeat(2, var(--card-height));
     gap: 12px;
     width: max-content;
+    max-width: 100%;
     margin: 16px auto 0;
     background: var(--panel);
     border: 1px solid var(--line);
@@ -130,7 +191,7 @@ body#levelScreen {
     color: var(--teal-dark);
     border: 1px solid var(--teal);
     transform: rotateY(180deg);
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
 }
 
 .card-front img {
@@ -175,8 +236,12 @@ body#levelScreen {
     border: 1px solid var(--line);
     padding: 24px 28px;
     border-radius: 4px;
-    max-width: 400px;
-    text-align: center;
+    max-width: min(520px, calc(100vw - 32px));
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr);
+    column-gap: 18px;
+    align-items: center;
+    text-align: left;
     transform: scale(0.92);
     opacity: 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
@@ -187,22 +252,42 @@ body#levelScreen {
     opacity: 1;
 }
 
+#info-img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90px;
+}
+
+#info-img img {
+    width: 90px;
+    height: 20vh;
+    object-fit: contain;
+    display: block;
+}
+
 #info-title {
     color: var(--teal-dark);
     font-size: 19px;
     margin: 0 0 10px;
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    flex-shrink: 0;
+    display: none;
 }
 
 #info-text {
     color: var(--ink-soft);
-    font-size: 14px;
+    font-size: 18px;
     line-height: 1.5;
-    margin: 0 0 6px;
+    margin: 0;
+    grid-column: 2;
 }
 
 #info-text p {
     margin: 0 0 10px;
-    text-align: justify;
+    text-align: left;
 }
 
 #info-text ul {
@@ -216,9 +301,9 @@ body#levelScreen {
 }
 
 button {
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 16px;
     border: 1px solid var(--teal);
     background: var(--teal);
     color: #fff;
@@ -233,6 +318,8 @@ button:hover {
 }
 
 #close-modal {
+    grid-column: 1 / -1;
+    justify-self: center;
     margin-top: 16px;
 }
 
@@ -249,7 +336,7 @@ button:hover {
 
 .title-block h1 {
     margin: 0;
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 700;
     letter-spacing: -0.01em;
     color: var(--teal-dark);
@@ -257,7 +344,7 @@ button:hover {
 
 .title-block p {
     margin: 6px 0 0;
-    font-size: 14px;
+    font-size: 15px;
     color: var(--ink-soft);
     max-width: 46ch;
 }
@@ -267,11 +354,65 @@ header {
     padding-bottom: 14px;
     margin-bottom: 16px;
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
     gap: 16px;
     flex-wrap: wrap;
-    text-align: left;
+    text-align: center;
+    position: relative;
+}
+
+.title-block {
+    text-align: center;
+    width: 100%;
+}
+
+@media (max-width: 1366px) {
+    body#levelScreen {
+        padding: 8px;
+    }
+
+    .app {
+        max-width: 1180px;
+    }
+
+    #levelTitle {
+        font-size: 28px;
+    }
+
+    #game-board {
+        gap: 10px;
+        padding: 12px;
+    }
+
+    #info-content {
+        max-width: min(480px, calc(100vw - 24px));
+        padding: 18px 22px;
+    }
+}
+
+@media (max-height: 650px) {
+    body#levelScreen {
+        padding: 8px;
+    }
+
+    #levelTitle {
+        padding-bottom: 10px;
+    }
+
+    #game-board {
+        margin-top: 10px;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    #info-content {
+        padding: 18px 18px 12px;
+    }
+
+    #close-modal {
+        margin-top: 12px;
+    }
 }
 
 @media (max-width: 600px) {

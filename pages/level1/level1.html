@@ -27,17 +27,20 @@
         <header>
             <div class="title-block">
                 <h1>Tahap 1 - Memori</h1>
-                <p>Padankan setiap pasangan berkaitan dengan Panduan Penyimpanan Ubat yang Selamat. Klik dua kad untuk menerokannya.</p>
+                <p>Padankan setiap pasangan berkaitan dengan Panduan Penyimpanan Ubat yang Selamat. Klik dua kad untuk
+                    menerokannya.</p>
             </div>
         </header>
         <div id="game-board"></div>
 
         <!-- Modal -->
         <div id="info-modal">
-            <div id="info-content">
-                <h2 id="info-title"></h2>
-                <div id="info-text"></div>
-                <button id="close-modal">Tutup</button>
+            <div id="info-flex">
+                <div id="info-content">
+                    <div id="info-img"></div>
+                    <div id="info-text"></div>
+                    <button id="close-modal">Tutup</button>
+                </div>
             </div>
         </div>
 
@@ -47,233 +50,7 @@
         <div id="splashScreen">Tahap Selesai!</div>
     </div>
 
-    <script>
-        let finalMatch = false;
-        // Ubah data dekat sini
-        const pairs = [
-            {
-                id: "termometer",
-                cards: [
-                    {
-                        image: "../../assets/img/termometer.png",
-                        alt: "🌡️"
-                    },
-                    {
-                        image: "../../assets/img/termometer.png",
-                        alt: "🌡️"
-                    }
-                ],
-                title: "",
-                message: "<p>Suhu ubat mengikut suhu yang dinyatakan:</p><ul><li><b>Suhu 2°C - 8°C:</b> Ruang tengah peti sejuk.</li><li><b>Suhu 30°C ke bawah:</b> Suhu bilik</li></ul>"
-            },
-            {
-                id: "tablet",
-                cards: [
-                    {
-                        image: "../../assets/img/pills.png",
-                        alt: "💊"
-                    }, 
-                    {
-                        image: "../../assets/img/pills.png",
-                        alt: "💊"
-                    }
-                ],
-                title: "",
-                message: "<p>Simpan ubat dalam bekas asal atau sampul ubat berserta label yang lengkap.</p>"
-            },
-            {
-                id: "cahaya",
-                cards: [
-                    {
-                        image: "../../assets/img/cahaya.png",
-                        alt: "☀️"
-                    },
-                    {
-                        image: "../../assets/img/cahaya.png",
-                        alt: "☀️"
-                    }
-                ],
-                title: "",
-                message: "<p>Jauhkan ubat daripada cahaya matahari.</p><ul><li>Contoh: Meletakkan ubat-ubatan di tepi tingkap.</li></ul>"
-            },
-            {
-                id: "firstAid",
-                cards: [
-                    {
-                        image: "../../assets/img/first-aid.png",
-                        alt: "🩹"
-                    },
-                    {
-                        image: "../../assets/img/first-aid.png",
-                        alt: "🩹"
-                    }
-                ],
-                title: "",
-                message: "<ul><li>Asingkan ubat makan daripada ubat kegunaan luar.</li><li>Jangan simpan ubat yang luput, rosak, atau tidak berlabel.</li></ul>"
-            },
-            {
-                id: "fridge",
-                cards: [
-                    {
-                        image: "../../assets/img/fridge.png",
-                        alt: "🧊"
-                    },
-                    {
-                        image: "../../assets/img/fridge.png",
-                        alt: "🧊"
-                    }
-                ],
-                title: "",
-                message: "<p>Jangan simpan ubat di dalam peti sejuk kecuali diarah berbuat demikian.</p>"
-            }
-        ];
-
-
-        let cards = [];
-        pairs.forEach(pair => {
-            pair.cards.forEach(content => {
-                cards.push({
-                    pairId: pair.id,
-                    content: typeof content === "string" ? { label: content } : content,
-                    title: pair.title,
-                    message: pair.message
-                });
-            });
-        });
-
-        // Shuffle
-        cards = cards.sort(() => Math.random() - 0.5);
-
-        const board = document.getElementById("game-board");
-        let firstCard = null;
-        let secondCard = null;
-        let lockBoard = false;
-
-        // Build cards
-        cards.forEach((data, index) => {
-            const card = document.createElement("div");
-            card.classList.add("card");
-            card.dataset.index = index;
-            card.dataset.pairId = data.pairId;
-
-            const inner = document.createElement("div");
-            inner.classList.add("card-inner");
-
-            const front = document.createElement("div");
-            front.classList.add("card-front");
-            if (data.content.image) {
-                const image = document.createElement("img");
-                image.src = data.content.image;
-                image.alt = data.content.alt || data.content.label || "Card image";
-                front.appendChild(image);
-            } else {
-                front.textContent = data.content.label || "";
-            }
-
-            const back = document.createElement("div");
-            back.classList.add("card-back");
-            back.textContent = "";
-
-            inner.appendChild(front);
-            inner.appendChild(back);
-            card.appendChild(inner);
-            board.appendChild(card);
-
-            card.addEventListener("click", () => flipCard(card));
-        });
-
-        function flipCard(card) {
-            if (lockBoard) return;
-            if (card.classList.contains("flipped") || card.classList.contains("matched")) return;
-
-            card.classList.add("flipped");
-
-            if (!firstCard) {
-                firstCard = card;
-                return;
-            }
-
-            secondCard = card;
-            checkMatch();
-        }
-
-        function checkMatch() {
-            const firstData = cards[firstCard.dataset.index];
-            const secondData = cards[secondCard.dataset.index];
-
-            if (firstData.pairId === secondData.pairId) {
-                firstCard.classList.add("matched");
-                secondCard.classList.add("matched");
-                showInfo(firstData.title, firstData.message);
-                resetTurn();
-
-                // Check if this was the final pair
-                const matchedCards = document.querySelectorAll(".card.matched").length;
-                if (matchedCards === cards.length) {
-                    finalMatch = true; // mark that the last modal is showing
-                }
-            } else {
-                lockBoard = true;
-                setTimeout(() => {
-                    firstCard.classList.remove("flipped");
-                    secondCard.classList.remove("flipped");
-                    resetTurn();
-                }, 900);
-            }
-        }
-
-        function resetTurn() {
-            firstCard = null;
-            secondCard = null;
-            lockBoard = false;
-        }
-
-        // Modal
-        const modal = document.getElementById("info-modal");
-        const infoTitle = document.getElementById("info-title");
-        const infoText = document.getElementById("info-text");
-        const closeBtn = document.getElementById("close-modal");
-
-        function showInfo(title, message) {
-            infoTitle.textContent = title;
-            infoText.innerHTML = message;
-
-            modal.style.display = "flex";
-            requestAnimationFrame(() => {
-                modal.classList.add("show");
-            });
-        }
-
-        closeBtn.addEventListener("click", () => {
-            modal.classList.remove("show");
-            setTimeout(() => {
-                modal.style.display = "none";
-
-                // If this was the final modal, complete the level
-                if (finalMatch && typeof completeLevel === "function") {
-                    completeLevel();
-                    finalMatch = false; // reset
-                }
-
-            }, 400);
-        });
-
-        modal.addEventListener("click", (e) => {
-            if (e.target === modal) {
-                modal.classList.remove("show");
-                setTimeout(() => {
-                    modal.style.display = "none"
-
-                    // If this was the final modal, complete the level
-                    if (finalMatch && typeof completeLevel === "function") {
-                        completeLevel();
-                        finalMatch = false; // reset
-                    }
-
-                }, 400);
-            }
-        });
-    </script>
+    <script src="level1.js"></script>
     <script src="../../script.js"></script>
 
 </body>

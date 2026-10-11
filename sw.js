@@ -1,4 +1,4 @@
-const CACHE_NAME = "pharmacy-adventure-v9"; // PENTING: Ubah version setiap kali update code
+const CACHE_NAME = "pharmacy-adventure-v10"; // PENTING: Ubah version setiap kali update code
 
 const APP_ASSETS = [
     "./",
