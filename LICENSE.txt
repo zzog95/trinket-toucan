@@ -1,4 +1,5 @@
 Music Credits
+=============
 
 This project uses the following music assets:
 
@@ -22,3 +23,10 @@ This project uses the following music assets:
    Download: http://incompetech.com/music/royalty-free/mp3-royaltyfree/Run%20Amok.mp3
 
 These tracks are used for this exhibition project with appropriate attribution.
+
+Image Credits
+=============
+This project uses the following image assets:
+
+1. Vaccine PNGs by Vecteezy
+   Source: https://www.vecteezy.com/free-png/vaccine

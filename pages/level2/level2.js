@@ -13,28 +13,44 @@
             text: '<p>Kapsul biasanya sensitif kepada kelembapan.</p><ul><li>Simpan di tempat yang sejuk dan kering.</li><li>Elakkan daripada terkena cahaya matahari langsung.</li></ul>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'KOSMETIK',
-            title: 'Kosmetik',
-            image: '../../assets/img/semak.png',
-            text: '<p>Produk kosmetik mesti disimpan mengikut arahan pembungkusan.</p><ul><li>Pastikan bekas tertutup.</li><li>Jangan gunakan jika sudah rosak atau luput tarikh.</li></ul>'
+            title: 'Apakah itu Kosmetik?',
+            image: '../../assets/img/kosmetik.png',
+            text: '<p>Kosmetik merujuk kepada persediaan yang digunakan pada bahagian luaran tubuh badan manusia (termasuk kulit, rambut,'
+                + ' kuku, bibir, dan bahagian luar alat kelamin) atau gigi dan membran mukus mulut bagi tujuan membersih, mewangi,'
+                + ' mengubah penampilan, menambah baik bau badan, melindungi, atau memeliharanya dalam keadaan baik.</p>'
         },
         {
+            // Source: https://pharmacy.moh.gov.my/ms/entri/perihal-kami.html
             word: 'FARMASI',
-            title: 'Farmasi',
+            title: 'Program Perkhidmatan Farmasi',
             image: '../../assets/img/meditips.png',
-            text: '<p>Farmasi adalah tempat untuk mendapatkan ubat yang betul.</p><ul><li>Semak label dan dos sebelum mengambil.</li><li>Rujuk pegawai farmasi jika ragu-ragu.</li></ul>'
+            text: '<p>Program Perkhidmatan Farmasi adalah salah satu program di bawah Kementerian Kesihatan Malaysia (KKM)' 
+                + ' yang bertanggungjawab untuk memastikan orang awam mendapat keluaran farmaseutikal yang berkualiti, selamat' 
+                + ' dan berkesan, melindungi kepentingan mereka melalui penguatkuasaan undang-undang yang berkaitan,' 
+                + ' serta memastikan ubat-ubatan digunakan oleh penyedia perkhidmatan kesihatan dan juga pesakit secara wajar.</p>'
         },
         {
+            // Source: https://pharmacy.moh.gov.my/ms/berita/24-mei-2018/vaksin-pelengkap-ketahanan.html
             word: 'VAKSIN',
             title: 'Vaksin',
-            image: '../../assets/img/semak.png',
-            text: '<p>Vaksin perlu disimpan pada suhu yang betul.</p><ul><li>Ikut arahan syarat penyimpanan.</li><li>Elakkan perubahan suhu yang mendadak.</li></ul>'
+            image: '../../assets/img/vaksin.png',
+            text: '<p>Vaksin adalah sediaan biologi yang dihasilkan menggunakan bakteria atau virus daripada `strain` tertentu yang diketahui sebagai penyebab penyakit' 
+                + ' berjangkit berbahaya.<br>Sebahagian atau seluruh komponen mikroorganisma yang diguna sebagai asas dalam penghasilan vaksin sudah dilemahkan atau' 
+                + ' dimatikan  melalui proses tertentu untuk merangsang antibodi melawan serangan patogen iaitu kuman penyebab sesuatu penyakit.</p>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'ALERGI',
-            title: 'Alergi',
-            image: '../../assets/img/cahaya.png',
-            text: '<p>Alergi boleh terjadi jika ubat disimpan atau digunakan dengan tidak betul.</p><ul><li>Semak bahan aktif dan kesesuaian.</li><li>Berhati-hati dengan tanda reaksi alergi.</li></ul>'
+            title: 'Alergi atau Alahan Ubat',
+            image: '../../assets/img/alahan.png',
+            text: '<p>Alergi atau alahan ubat adalah kesan yang tidak diingini berpunca daripada kesan hipersensitiviti terhadap ubat yang diambil.</p>'
+                + '<ul><li>Alahan ubat tidak berlaku kepada semua pesakit.</li>'
+                + '<li>Contoh kesan alahan biasa ialah ruam, gatal-gatal pada kulit, bengkak pada muka, lidah dan bibir.'
+                + ' Contoh alahan serius ialah sukar bernafas.</li></ul>'
+                + '<p><br>Kad alahan ubat akan diberikan sekiranya alahan telah disahkan oleh doktor di fasiliti kerajaan.' 
+                + '<br><strong>Sentiasa bawa kad alahan ubat. Tunjukkan kepada anggota kesihatan setiap kali mendapatkan rawatan atau bekalan ubat.</strong></p>'
         },
         {
             word: 'GENERIK',
@@ -49,46 +65,89 @@
             text: '<p>Insulin perlu disimpan pada suhu yang sesuai.</p><ul><li>Jangan simpan dalam suhu terlalu panas.</li><li>Gunakan mengikut jadual yang ditetapkan.</li></ul>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'MYUBAT',
             title: 'MyUBAT',
-            image: '../../assets/img/meditips.png',
-            text: '<p>MyUBAT membantu anda memantau penggunaan ubat dengan lebih selamat.</p><ul><li>Semak maklumat ubat secara berkala.</li><li>Pastikan jadual penggunaan konsisten.</li></ul>'
+            image: '../../assets/img/myubat.png',
+            text: '<p>MyUBAT merupakan sistem perkhidmatan pembekalan ubat susulan pesakit Kementerian Kesihatan Malaysia (KKM).</p>'
+                + '<strong>Perkhidmatan pembekalan ubat susulan yang disediakan melalui MyUBAT</strong>'
+                + '<ul><li><strong>Janji Temu di Kaunter</strong><br>Bekalan ubat disediakan sebelum pesakit hadir ke kaunter farmasi.</li>'
+                + '<li><strong>Ubat Melalui Pos</strong><br>Bekalan ubat dihantar terus ke lokasi pilihan pesakit dengan caj tertentu.</li>' // Kena update based on Belanjawan 2027
+                + '<li><strong>Lokar Ubat</strong><br>Bekalan ubat boleh diambil pada masa yang lebih fleksibel.</li>'
+                + '<li><strong>Farmasi Pandu Lalu</strong><br>Bekalan ubat diambil melalui kaunter farmasi pandu lalu.</li></ul>'
+                + '<p>Ketersediaan perkhidmatan adalah bergantung kepada fasiliti kesihatan masing-masing.'
+                + ' Muat turun aplikasi MyUBAT untuk pembekalan ubat susulan dengan mudah dan cepat.</p>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'ANTIBIOTIK',
             title: 'Antibiotik',
             image: '../../assets/img/first-aid.png',
-            text: '<p>Antibiotik perlu diambil mengikut dos dan tempoh yang ditetapkan.</p><ul><li>Jangan hentikan tanpa nasihat doktor.</li><li>Elakkan penggunaan berlebihan.</li></ul>'
+            text: '<p>Antibiotik adalah ubat yang digunakan untuk merawat jangkitan bakteria'
+                + ' sahaja.<br><br>Antibiotik tidak perlu diambil jika pesakit demam, batuk, selsema,'
+                + ' atau sakit tekak yang disebabkan jangkitan virus. Antibiotik juga bukan ubat'
+                + ' untuk menguatkan imuniti badan.</p>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'INTERAKSI',
-            title: 'Interaksi',
-            image: '../../assets/img/semak.png',
-            text: '<p>Interaksi ubat boleh menjejaskan keberkesanan rawatan.</p><ul><li>Maklumkan doktor atau pegawai farmasi.</li><li>Semak ubat lain yang sedang digunakan.</li></ul>'
+            title: 'Interaksi Ubat',
+            image: '../../assets/img/interaksi.png',
+            text: '<p>Interaksi ubat boleh berlaku antara:</p>'
+                + '<ul><li>Ubat dengan ubat</li><li>Ubat dengan makanan</li><li>Ubat dengan penyakit</li></ul>'
+                + '<p><strong>Beritahu doktor atau ahli farmasi sekiranya sedang mengambil sebarang ubat, produk kesihatan,'
+                + ' atau produk tradisional. Patuhi arahan penggunaan ubat.</strong></p>'
         },
         {
+            // Source: Kenali Ubat Anda booklet & https://pharmacy.moh.gov.my/ms/dokumen/formulari-ubat-kementerian-kesihatan-malaysia.html
             word: 'PRESKRIPSI',
             title: 'Preskripsi',
             image: '../../assets/img/fridge.png',
-            text: '<p>Preskripsi penting untuk memastikan ubat yang betul pada dos yang betul.</p><ul><li>Semak arahan doktor sebelum membeli.</li><li>Pastikan label jelas dan lengkap.</li></ul>'
+            text: '<p>Preskripsi merupakan arahan bertulis berkaitan ubat daripada doktor.</p><br>Kategori preskriber yang boleh memulakan preskripsi:'
+                + '<ul><li><strong>A* : </strong>Pakar Perunding / Pakar bagi Indikasi yang Spesifik sahaja</li>' 
+                + '<li><strong>A : </strong>Pakar Perunding / Pakar</li>' 
+                + '<li><strong>A/KK : </strong>Pakar Perunding / Pakar / Pakar Perubatan Keluarga</li>'
+                + '<li><strong>B : </strong>Pakar Perunding / Pakar / Pakar Perubatan Keluarga / Pegawai Perubatan</li>'
+                + '<li><strong>C : </strong>Pakar Perunding / Pakar / Pakar Perubatan Keluarga / Pegawai Perubatan / Anggota Paramedik</li>'
+                + '<li><strong>C+ : </strong>Pakar Perunding / Pakar / Pakar Perubatan Keluarga / Pegawai Perubatan / Anggota Paramedik/ Anggota Paramedik Perbidanan</li></ul>'
+                + '<p><br>Nota:  Bagi bidang pergigian, Pakar Perunding Kanan/Pakar Perunding serta Pegawai Perubatan Pergigian adalah termasuk dalam kategori' 
+                + ' preskriber seperti di atas namun hanya bagi ubat-ubatan yang digunakan dalam rawatan pergigian.</p>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'HOLOGRAM',
-            title: 'Hologram',
+            title: 'Label Keselamatan Hologram',
             image: '../../assets/img/bungkus.png',
-            text: '<p>Hologram membantu memastikan pembungkusan ubat adalah asli.</p><ul><li>Semak ciri keselamatan pada pembungkusan.</li><li>Jangan beli ubat yang pembungkusan tidak lengkap.</li></ul>'
+            text: '<p>Semua ubat perlu mempunyai label keselamatan hologram FarmaTag® yang tulen. Terdapat 3 versi label keselamatan hologram yang ada di pasaran:</p>'
+                + '<ul><li>FarmaTag® versi 1</li><li>FarmaTag® versi 2</li><li>FarmaTag® versi 2.1</li></ul>'
+                + '<p><br>Ketulenan label keselamatan hologram FarmaTag® boleh disahkan melalui:</p>'
+                + '<ul><li>FarmaTag® EZ-Checker yang terdapat di farmasi komuniti</li>'
+                + '<li>Aplikasi telefon pintar MyUBAT-FarmaChecker®</li></ul>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'ARAHAN',
-            title: 'Arahan',
-            image: '../../assets/img/imbas.png',
-            text: '<p>Sentiasa baca arahan dengan teliti sebelum mengambil ubat.</p><ul><li>Ikut masa dan dos yang disyorkan.</li><li>Elakkan penyimpanan di luar panduan.</li></ul>'
+            title: 'Arahan Pengambilan Ubat',
+            image: '../../assets/img/arahan.png',
+            text: '<ul><li>Ambil ubat sebelum makan.<br>' 
+                + '<strong>Ubat perlu diambil 30 minit hingga 1 jam sebelum makan. Sekiranya terlupa dan sudah mengambil makanan,' 
+                + ' ubat boleh diambil 2 jam selepas makan.</strong><br>*Untuk sesetengah ubat antidiabetes dan ubat tahan muntah,' 
+                + ' perlu ambil 30 minit sebelum makan.</li>' 
+                + '<li>Ambil ubat bersama-sama makanan.<br><strong>Ubat perlu diambil atau dikunyah bersama-sama makanan.</strong></li>' 
+                + '<li>Ambil ubat selepas makan.<br><strong>Ubat perlu diambil sejurus selepas mengambil makanan.</strong></li></ul>'
         },
         {
+            // Source: Kenali Ubat Anda booklet
             word: 'DAFTAR',
-            title: 'Daftar',
-            image: '../../assets/img/meditips.png',
-            text: '<p>Mendaftar maklumat ubat membantu anda menjejak penggunaan dengan betul.</p><ul><li>Catat nama ubat dan dos.</li><li>Semak tarikh luput secara berkala.</li></ul>'
+            title: 'Nombor Pendaftaran',
+            image: '../../assets/img/ubat-daftar.png',
+            text: '<p>Dimulakan dengan MAL, diikuti dengan 8 digit dan huruf A, B, X, T, atau N.</p>' 
+                + '<ul><li><strong>MAL23456789<span style="color: purple;">A</span> : </strong> Ubat Terkawal</li>'
+                + '<li><strong>MAL23456789<span style="color: purple;">B</span> : </strong> Produk semula jadi dengan tuntutan terapeutik</li>'
+                + '<li><strong>MAL23456789<span style="color: purple;">X</span> : </strong> Ubat am (OTC)</li>'
+                + '<li><strong>MAL23456789<span style="color: purple;">T</span> : </strong> Produk semula jadi (ubat tradisional dan homeopati)</li>'
+                + '<li><strong>MAL23456789<span style="color: purple;">N</span> : </strong> Suplemen kesihatan</li></ul>'
+                + '<p><br>Status pendaftaran boleh disemak melalui Laman web Bahagian Regulatori Farmasi Negara (NPRA)<br><a href="https://npra.gov.my" target="_blank">https://npra.gov.my</a></p>'
         }
     ];
     const WORDS_PER_GAME = 8;
@@ -284,11 +343,18 @@
             text: '<p>Maklumat lanjut tentang istilah ini akan dipaparkan di sini.</p>'
         };
 
-        infoImg.innerHTML = `<img src="${info.image}" alt="${info.title}" onerror="this.onerror=null;this.src='../../assets/img/meditips.png';">`;
-        infoText.innerHTML = `<h3>${info.title}</h3>${info.text}`;
+        infoImg.innerHTML = '';
+        infoText.innerHTML = `
+            <h3>${info.title}</h3>
+            <div class="info-visual">
+                <img src="${info.image}" alt="${info.title}" onerror="this.onerror=null;this.src='../../assets/img/meditips.png';">
+            </div>
+            <div class="info-body">${info.text}</div>
+        `;
 
         modal.classList.remove('show');
         modal.setAttribute('aria-hidden', 'false');
+        modal.inert = false;
         modal.style.display = 'flex';
 
         requestAnimationFrame(() => {
@@ -297,10 +363,15 @@
     }
 
     function hideWordInfo() {
+        if (document.activeElement && modal.contains(document.activeElement)) {
+            document.activeElement.blur();
+        }
+
         modal.classList.remove('show');
         setTimeout(() => {
             modal.style.display = 'none';
             modal.setAttribute('aria-hidden', 'true');
+            modal.inert = true;
 
             if (completionPending) {
                 completionPending = false;

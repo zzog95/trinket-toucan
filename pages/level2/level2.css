@@ -377,44 +377,55 @@ button.ghost:hover {
 }
 
 #info-content {
-    width: min(520px, calc(100vw - 32px));
+    width: min(85vw, calc(100vw - 32px));
     background: var(--panel);
     border: 1px solid var(--line);
     border-radius: 6px;
     padding: 22px 24px 20px;
     box-shadow: 0 12px 30px rgba(38, 29, 46, 0.18);
     display: grid;
-    grid-template-columns: 120px minmax(0, 1fr);
+    grid-template-columns: 1fr;
     gap: 18px 20px;
-    align-items: center;
+    align-items: start;
 }
 
 #info-img {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 110px;
-}
-
-#info-img img {
-    width: 96px;
-    height: 96px;
-    object-fit: contain;
-    display: block;
+    display: none;
 }
 
 #info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-soft);
 }
 
 #info-text h3 {
-    margin: 0 0 8px;
+    margin: 0;
     font-size: 28px;
     color: var(--teal-dark);
     line-height: 1.2;
+}
+
+.info-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 110px;
+}
+
+.info-visual img {
+    height: 30vh;
+    max-height: 220px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.info-body {
+    width: 100%;
 }
 
 #info-text p,
